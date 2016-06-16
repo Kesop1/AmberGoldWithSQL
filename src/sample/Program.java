@@ -897,6 +897,7 @@ class Program {
             e.printStackTrace();
             return false;
         }
+        System.out.println("Users loaded successfully from the database");
         return true;
     }
 
@@ -934,6 +935,7 @@ class Program {
             System.out.println("Error while retrieving passwords" + e.getMessage());
             return false;
         }
+        System.out.println("User passwords loaded successfully from the database");
         return true;
     }
 
@@ -996,6 +998,7 @@ class Program {
             System.out.println("Error while retrieving branches from the database" + e.getMessage());
             return false;
         }
+        System.out.println("Branches loaded successfully from the database");
         return true;
     }
 
@@ -1087,6 +1090,7 @@ class Program {
             System.out.println("Error while retrieving roles from the database" + e.getMessage());
             return false;
         }
+        System.out.println("Roles loaded successfully from the database");
         return true;
     }
 
@@ -1414,7 +1418,7 @@ class Program {
                                     activeAdmin.loadTempBranches("Add", newBranch, null, newBranchAddress, admin);
                                 }
 //                            Add new role
-                                else if ((userId.equals("")) && (!roleName.equals(""))) {
+                                else if ((userId.equals("")) && (!roleName.equals("")) && (findRoleByName(roleName)==null)) {
                                     Role newRole = new Role(roleName);
 //                                newRole.setLimits(limitsArray);
                                     activeAdmin.loadTempRoles("Add", newRole, limitsArray, admin);
@@ -1486,6 +1490,169 @@ class Program {
         }
     }
 
+    boolean loadTempdb(Statement st){
+        try{
+            String query = "select * from admin_temp";
+            ResultSet resultSet = st.executeQuery(query);
+            System.out.println("Loading admin_temp from the database");
+            while (resultSet.next()){
+                String action = "";
+                String userId = "";
+                User user = null;
+                String branchName = "";
+                Branch branch = null;
+                String roleName = "";
+                Role role = null;
+                String adminId = "";
+                Admin admin = null;
+                try {
+                    System.out.println("Loading");
+                    action = resultSet.getString("action");
+                    userId = resultSet.getString("user");
+                    if (userId.equals("null")) userId = "";
+                    System.out.println("A tu");
+                    user = findUserById(userId);
+                    branchName = resultSet.getString("branch");
+                    if (branchName.equals("null")) branchName = "";
+                    System.out.println("teraz");
+                    branch = findBranchByName(branchName);
+                    roleName = resultSet.getString("role");
+                    if (roleName.equals("null")) roleName = "";
+                    role = findRoleByName(roleName);
+                    adminId = resultSet.getString("admin");
+                    admin = findAdminById(adminId);
+                }catch (NullPointerException e){
+                    System.out.println(e.getMessage());
+                }
+                Double deposit = 0.0;
+                Double withdrawal = 0.0;
+                Double transfer = 0.0;
+                Double payment = 0.0;
+                Double online = 0.0;
+                System.out.println("Tutaj");
+                try {
+                    deposit = resultSet.getDouble("deposit");
+                    withdrawal = resultSet.getDouble("withdrawal");
+                    transfer = resultSet.getDouble("transfer");
+                    payment = resultSet.getDouble("payment");
+                    online = resultSet.getDouble("online");
+                }catch (NumberFormatException e){
+                    e.getMessage();
+                }
+                String newName = resultSet.getString("new_name");
+                String newBranchAddress = resultSet.getString("new_address");
+                ArrayList<Double> limits = new ArrayList<>();
+                limits.add(deposit);
+                limits.add(withdrawal);
+                limits.add(transfer);
+                limits.add(payment);
+                limits.add(online);
+                if(admin!=null){
+                    switch (action) {
+                        case "Add":
+                            System.out.print("Adding");
+//                        Add new user
+                            if (!userId.equals("")) {
+                                System.out.println(" user");
+                                Character type = userId.charAt(0);
+                                if (!newName.equals("")) {
+                                    if (type.equals('A')) {
+                                        Admin admin1 = new Admin(newName);
+                                        admin1.setId(userId);
+                                        activeAdmin.loadTempUsers("Add", admin1, null, null, admin);
+                                    } else if ((type.equals('M')) && (branch != null)) {
+                                        Manager manager = new Manager(newName);
+                                        manager.setId(userId);
+                                        activeAdmin.loadTempUsers("Add", manager, branch, null, admin);
+                                    } else if ((type.equals('E')) && (branch != null) && (role != null)) {
+                                        Employee employee = new Employee(newName);
+                                        employee.setId(userId);
+                                        activeAdmin.loadTempUsers("Add", employee, branch, role, admin);
+                                    } else {
+                                        System.out.println("Wrong add user input");
+                                    }
+                                } else {
+                                    System.out.println("New name missing");
+                                }
+                            }
+//                        Add new branch
+                            else if ((userId.equals("")) && (!branchName.equals("")) && (!newBranchAddress.equals(""))) {
+                                System.out.println(" branch");
+                                Branch newBranch = new Branch(branchName, newBranchAddress);
+                                activeAdmin.loadTempBranches("Add", newBranch, null, newBranchAddress, admin);
+                            }
+//                            Add new role
+                            else if ((userId.equals("")) && (!roleName.equals("")) && (findRoleByName(roleName)==null)) {
+                                System.out.println(" role");
+                                Role newRole = new Role(roleName);
+//                                newRole.setLimits(limitsArray);
+                                activeAdmin.loadTempRoles("Add", newRole, limits, admin);
+                            }
+                            break;
+                        case "Modify":
+//                            Modify user
+                            if (!userId.equals("")) {
+                                Character type = userId.charAt(0);
+                                if (type.equals('M')) {
+                                    Manager manager = (Manager) user;
+                                    if ((manager != null) && (branch != null)) {
+                                        activeAdmin.loadTempUsers("Modify", manager, branch, null, admin);
+                                    }
+                                } else if (type.equals('E')) {
+                                    Employee employee = (Employee) user;
+                                    if ((employee != null) && (branch != null) && (role != null)) {
+                                        activeAdmin.loadTempUsers("Modify", employee, branch, role, admin);
+                                    }
+                                } else {
+                                    System.out.println("Wrong user type");
+                                }
+//                                Modify branch
+                            } else if ((userId.equals("")) && (branch != null)) {
+                                activeAdmin.loadTempBranches("Modify", branch, newName, newBranchAddress, admin);
+//                                Modify role
+                            } else if ((userId.equals("")) && (role != null)) {
+                                activeAdmin.loadTempRoles("Modify", role, limits, admin);
+                            }
+                            break;
+                        case "Remove":
+//                            Remove user
+                            if (!userId.equals("")) {
+                                Character type = userId.charAt(0);
+                                if (type.equals('M')) {
+                                    Manager manager = (Manager) user;
+                                    if ((manager != null) && (branch != null)) {
+                                        activeAdmin.loadTempUsers("Remove", manager, branch, null, admin);
+                                    }
+                                } else if (type.equals('E')) {
+                                    Employee employee = (Employee) user;
+                                    if ((employee != null) && (branch != null) && (role != null)) {
+                                        activeAdmin.loadTempUsers("Remove", employee, branch, role, admin);
+                                    }
+                                } else {
+                                    System.out.println("Wrong user type");
+                                }
+//                                Modify branch
+                            } else if ((userId.equals("")) && (branch != null)) {
+                                activeAdmin.loadTempBranches("Remove", branch, null, null, admin);
+//                                Modify role
+                            } else if ((userId.equals("")) && (role != null)) {
+                                activeAdmin.loadTempRoles("Remove", role, limits, admin);
+                            }
+                            break;
+
+
+                    }
+                }
+                System.out.println("Temp action : " + action.toLowerCase() + " loaded for " + adminId);
+            }
+        }catch (SQLException e){
+            System.out.println("Error while retrieving admin temps from the database" + e.getMessage());
+            return false;
+        }
+        System.out.println("Temps loaded successfully from the database");
+        return true;
+    }
+
     void loadAll() {
         Connection con;
         Statement st = null;
@@ -1500,6 +1667,7 @@ class Program {
         if(!loadRolesdb(st)) loadRoles();
         if(!loadUsersdb(st)) loadUsers();
         else loadPassworddb(st);
+        loadTempdb(st);
     }
 }
 

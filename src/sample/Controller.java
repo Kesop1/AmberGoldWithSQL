@@ -45,7 +45,6 @@ public class Controller {
                 System.out.println("Admin logging in");
                 userType = (Admin) outcome;
                 activeAdmin = (Admin) outcome;
-                program.loadTemp();
             } else if (outcome.getClass().equals(Manager.class)) {
                 System.out.println("Manager logging in");
                 userType = (Manager) outcome;
