@@ -10,6 +10,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
 
 import static sample.Main.*;
 
@@ -34,7 +35,7 @@ public class Controller {
         User userType;
         Object outcome = userLogin(userNameField.getText().toUpperCase(), passwordField.getText());
         if (outcome == null) {
-            System.out.println("Login incorrect");
+            System.out.println("Invalid user name");
             loginLabel.setText("Invalid user name");
         } else if (outcome.getClass().equals(String.class)) {
             System.out.println(outcome);
@@ -45,20 +46,21 @@ public class Controller {
                 System.out.println("Admin logging in");
                 userType = (Admin) outcome;
                 activeAdmin = (Admin) outcome;
+                program.loadTempdb();
             } else if (outcome.getClass().equals(Manager.class)) {
                 System.out.println("Manager logging in");
                 userType = (Manager) outcome;
                 activeManager = (Manager) outcome;
-                program.loadClients();
-                program.loadTransactions();
-                program.loadTempTransactions();
+                program.loadClientsdb();
+                program.loadTransactionsdb();
+                program.loadTempTransactionsdb();
             } else {
                 System.out.println("Employee logging in");
                 userType = (Employee) outcome;
                 activeEmployee = (Employee) outcome;
-                program.loadClients();
-                program.loadTransactions();
-                program.loadTempTransactions();
+                program.loadClientsdb();
+                program.loadTransactionsdb();
+                program.loadTempTransactionsdb();
             }
 //            program.saveUsers();
             mainMenu(userType);
@@ -83,10 +85,14 @@ public class Controller {
                     if (!login)
                         if (!oldPass.equals(admin.getPassword()))
                             login = true;
-                    if (login)
+                    if (login) {
+                        savePassword(admin.getId(), admin.getAttempts(), admin.getPassword(), admin.isChangePassword());
                         return admin;
+                    }
+                }else {
+                    savePassword(admin.getId(), admin.getAttempts(), admin.getPassword(), admin.isChangePassword());
+                    return "Invalid password";
                 }
-                return "Invalid password";
             } else {
                 return "Too many failed attempts. User is disabled";
             }
@@ -107,10 +113,15 @@ public class Controller {
                     if (!login)
                         if (!oldPass.equals(employee.getPassword()))
                             login = true;
-                    if (login)
+                    if (login) {
+                        savePassword(employee.getId(), employee.getAttempts(), employee.getPassword(), employee.isChangePassword());
                         return employee;
+                    }
                 }
-                return "Invalid password";
+                else {
+                    savePassword(employee.getId(), employee.getAttempts(), employee.getPassword(), employee.isChangePassword());
+                    return "Invalid password";
+                }
             } else {
                 return "Too many failed attempts. User is disabled";
             }
@@ -135,10 +146,15 @@ public class Controller {
                             if (!login)
                                 if (!oldPass.equals(manager.getPassword()))
                                     login = true;
-                            if (login)
+                            if (login) {
+                                savePassword(manager.getId(), manager.getAttempts(), manager.getPassword(), manager.isChangePassword());
                                 return manager;
+                            }
                         }
-                        return "Invalid password";
+                        else {
+                            savePassword(manager.getId(), manager.getAttempts(), manager.getPassword(), manager.isChangePassword());
+                            return "Invalid password";
+                        }
                     } else {
                         return "Too many failed attempts. User is disabled";
                     }
@@ -146,6 +162,23 @@ public class Controller {
             }
         }
         return null;
+    }
+
+    private boolean savePassword(String userId, int attempts, String password, boolean change){
+        try{
+            int pass_change = 0;
+            if(change) pass_change = 1;
+            String query = "update password set password='" + password + "', attempts='" + attempts + "', pass_change='"
+                    + pass_change + "' where login='" + userId + "';";
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.execute();
+//            con.close();
+            System.out.println("Password saved");
+            return true;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return false;
     }
 
     private void mainMenu(Object userType) throws IOException {

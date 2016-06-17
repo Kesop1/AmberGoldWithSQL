@@ -9,14 +9,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.sql.*;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
-import static sample.Main.activeAdmin;
+import static sample.Main.*;
 
 class Program {
     ArrayList<Branch> branches;
@@ -854,7 +857,7 @@ class Program {
         }
     }
 
-    private boolean loadUsersdb(Statement st){
+    private boolean loadUsersdb(){
         try{
             String query = "select * from users";
             ResultSet resultSet = st.executeQuery(query);
@@ -901,7 +904,7 @@ class Program {
         return true;
     }
 
-    private boolean loadPassworddb(Statement st){
+    private boolean loadPassworddb(){
         try{
             String query = "select * from password";
             ResultSet resultSet = st.executeQuery(query);
@@ -980,7 +983,7 @@ class Program {
         }
     }
 
-    private boolean loadBranchesdb(Statement st){
+    private boolean loadBranchesdb(){
         try{
             String query = "select * from branches";
             ResultSet resultSet = st.executeQuery(query);
@@ -1063,7 +1066,7 @@ class Program {
         }
     }
 
-    private boolean loadRolesdb(Statement st){
+    private boolean loadRolesdb(){
         try{
             String query = "select * from roles";
             ResultSet resultSet = st.executeQuery(query);
@@ -1163,6 +1166,43 @@ class Program {
         }
     }
 
+    boolean loadClientsdb(){
+        try{
+            String query = "select * from clients";
+            ResultSet resultSet = st.executeQuery(query);
+            System.out.println("Loading clients from the database");
+            while (resultSet.next()){
+                int ssNumber = resultSet.getInt("ssnumber");
+                String firstName = resultSet.getString("first");
+                String lastName = resultSet.getString("last");
+                String address = resultSet.getString("address");
+                Date birth = resultSet.getDate("birth");
+                LocalDate date = birth.toLocalDate();
+                Double balance = resultSet.getDouble("balance");
+                String account = resultSet.getString("account");
+                String branchName = resultSet.getString("branch");
+                Branch branch = findBranchByName(branchName);
+                if ((branch == null) || (firstName==null) || (lastName==null) || (ssNumber<0) ||
+                        (address==null) || (account==null) || (date == null) || (date.isAfter(LocalDate.now().minusDays(1)))) {
+                    System.out.println("Wrong input");
+                } else {
+                    Client client = new Client(firstName, lastName, ssNumber, address, date);
+                    branch.getClients().add(client);
+                    client.setBalance(balance);
+                    client.setAccountNumber(account);
+                    System.out.println(client.getLastName() + " loaded in " + branch.getName());
+                }
+
+                System.out.println("Client: " + lastName + " loaded");
+            }
+        }catch (SQLException e){
+            System.out.println("Error while retrieving clients from the database" + e.getMessage());
+            return false;
+        }
+        System.out.println("Clients loaded successfully from the database");
+        return true;
+    }
+
     boolean loadTransactions() {
         String fileName1 = "Transactions.csv";
         System.out.println("Loading " + fileName1);
@@ -1258,6 +1298,65 @@ class Program {
         }
     }
 
+    boolean loadTransactionsdb(){
+        try{
+            String query = "select * from transactions";
+            ResultSet resultSet = st.executeQuery(query);
+            System.out.println("Loading transactions from the database");
+            while (resultSet.next()){
+                int transId = resultSet.getInt("id");
+                String type = resultSet.getString("type");
+                String sender = resultSet.getString("sender");
+                String receiver = resultSet.getString("receiver");
+                Double amount = resultSet.getDouble("amount");
+                Date date1 = resultSet.getDate("trans_date");
+                LocalDate date = date1.toLocalDate();
+                String branchName = resultSet.getString("branch");
+                Branch branch = findBranchByName(branchName);
+                String userId = resultSet.getString("user");
+                Employee employee = findEmployeeById(userId);
+                Manager manager = findManagerById(userId);
+                if ((branch == null) || (sender==null) || (type==null) ||
+                        (amount<0) || (date == null) || ((employee == null) && (manager == null)) || (transId < 0)) {
+                    System.out.println("Wrong input");
+                } else {
+                    Transaction transaction = new Transaction(sender, receiver, type, amount, date, userId);
+                    transaction.setTransactionId(transId);
+                    if (findTransactionById(transId) == null) {
+                        System.out.println(transaction.getTransactionId() + " added to " + branch.getName());
+                        branch.getTransactions().add(transaction);
+                        Client clientSender = findClientByAccount(sender);
+                        if (clientSender != null) {
+                            System.out.println(transaction.getTransactionId() + " added to " + clientSender.getLastName());
+                            clientSender.getTransactions().add(transaction);
+                        }
+                        Client clientReceiver = findClientByAccount(receiver);
+                        if ((clientReceiver != null) && (clientReceiver != clientSender)) {
+                            System.out.println(transaction.getTransactionId() + " added to " + clientReceiver.getLastName());
+                            clientReceiver.getTransactions().add(transaction);
+                            Branch branchReceiver = findBranchByClientSs(clientReceiver.getSocialSecurityNumber());
+                            if (branch != branchReceiver) {
+                                System.out.println(transaction.getTransactionId() + " added to " + branchReceiver.getName());
+                                branchReceiver.getTransactions().add(transaction);
+                            }
+                        }
+                        System.out.println(transId + " loaded in " + branch.getName());
+                    } else {
+                        System.out.println("Transaction " + transId + " already exists");
+                    }
+                }
+
+
+                System.out.println("Transaction: " + transId + " loaded");
+            }
+        }catch (SQLException e){
+            System.out.println("Error while retrieving transactions from the database" + e.getMessage());
+            return false;
+        }
+        System.out.println("Transactions loaded successfully from the database");
+        return true;
+    }
+
     boolean loadTempTransactions() {
         String fileName1 = "TempTransactions.csv";
         System.out.println("Loading " + fileName1);
@@ -1336,6 +1435,53 @@ class Program {
             System.out.println(e.getMessage());
             return false;
         }
+    }
+
+    boolean loadTempTransactionsdb(){
+        try{
+            String query = "select * from manager_temp";
+            ResultSet resultSet = st.executeQuery(query);
+            System.out.println("Loading manager temp transactions from the database");
+            while (resultSet.next()){
+                int transId = resultSet.getInt("id");
+                String type = resultSet.getString("type");
+                String sender = resultSet.getString("sender");
+                String receiver = resultSet.getString("receiver");
+                Double amount = resultSet.getDouble("amount");
+                Date date1 = resultSet.getDate("date");
+                LocalDate date = date1.toLocalDate();
+                String branchName = resultSet.getString("branch");
+                Branch branch = findBranchByName(branchName);
+                String userId = resultSet.getString("employee");
+                Employee employee = findEmployeeById(userId);
+                if ((branch == null) || (sender==null) || (type==null) ||
+                        (amount<0) || (date == null) || (employee == null) || (transId < 0)) {
+                    System.out.println("Wrong input");
+                } else {
+                    Transaction transaction = new Transaction(sender, receiver, type, amount, date, employee.getId());
+                    System.out.println("++++++++++++++++++++++++++++++++++++++++++");
+                    System.out.println(transaction.saveString());
+                    transaction.setTransactionId(transId);
+                    System.out.println("___");
+                    System.out.println(transaction.saveString());
+                    if (findTransactionById(transId) == null) {
+                        System.out.println(transaction.getTransactionId() + " added to " + branch.getName());
+                        branch.getManager().getTempTransactions().add(transaction);
+                        System.out.println(transId + " loaded in " + branch.getName());
+                    } else {
+                        System.out.println("Transaction " + transId + " already exists");
+                    }
+                }
+
+
+                System.out.println("Transaction: " + transId + " loaded");
+            }
+        }catch (SQLException e){
+            System.out.println("Error while retrieving temp transactions from the database" + e.getMessage());
+            return false;
+        }
+        System.out.println("Temp transactions loaded successfully from the database");
+        return true;
     }
 
     boolean loadTemp() {
@@ -1490,46 +1636,29 @@ class Program {
         }
     }
 
-    boolean loadTempdb(Statement st){
+    boolean loadTempdb(){
         try{
             String query = "select * from admin_temp";
             ResultSet resultSet = st.executeQuery(query);
             System.out.println("Loading admin_temp from the database");
             while (resultSet.next()){
-                String action = "";
-                String userId = "";
-                User user = null;
-                String branchName = "";
-                Branch branch = null;
-                String roleName = "";
-                Role role = null;
-                String adminId = "";
-                Admin admin = null;
-                try {
-                    System.out.println("Loading");
-                    action = resultSet.getString("action");
-                    userId = resultSet.getString("user");
-                    if (userId.equals("null")) userId = "";
-                    System.out.println("A tu");
-                    user = findUserById(userId);
-                    branchName = resultSet.getString("branch");
-                    if (branchName.equals("null")) branchName = "";
-                    System.out.println("teraz");
-                    branch = findBranchByName(branchName);
-                    roleName = resultSet.getString("role");
-                    if (roleName.equals("null")) roleName = "";
-                    role = findRoleByName(roleName);
-                    adminId = resultSet.getString("admin");
-                    admin = findAdminById(adminId);
-                }catch (NullPointerException e){
-                    System.out.println(e.getMessage());
-                }
+                String action = resultSet.getString("action");
+                String userId = resultSet.getString("user");
+                if (userId==null) userId = "";
+                User user = findUserById(userId);
+                String branchName = resultSet.getString("branch");
+                if (branchName==null) branchName = "";
+                Branch branch = findBranchByName(branchName);
+                String roleName = resultSet.getString("role");
+                if (roleName==null) roleName = "";
+                Role role = findRoleByName(roleName);
+                String adminId = resultSet.getString("admin");
+                Admin admin = findAdminById(adminId);
                 Double deposit = 0.0;
                 Double withdrawal = 0.0;
                 Double transfer = 0.0;
                 Double payment = 0.0;
                 Double online = 0.0;
-                System.out.println("Tutaj");
                 try {
                     deposit = resultSet.getDouble("deposit");
                     withdrawal = resultSet.getDouble("withdrawal");
@@ -1654,8 +1783,6 @@ class Program {
     }
 
     void loadAll() {
-        Connection con;
-        Statement st = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/amber_gold", "root", "");
@@ -1663,12 +1790,9 @@ class Program {
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
-        if(!loadBranchesdb(st)) loadBranches();
-        if(!loadRolesdb(st)) loadRoles();
-        if(!loadUsersdb(st)) loadUsers();
-        else loadPassworddb(st);
-        loadTempdb(st);
+        if(!loadBranchesdb()) loadBranches();
+        if(!loadRolesdb()) loadRoles();
+        if(!loadUsersdb()) loadUsers();
+        else loadPassworddb();
     }
 }
-
-

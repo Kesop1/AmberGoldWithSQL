@@ -6,6 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.sql.Connection;
+import java.sql.Statement;
+
 public class Main extends Application {
 
 
@@ -70,6 +73,8 @@ public class Main extends Application {
     static Admin activeAdmin;
     static Manager activeManager;
     static Employee activeEmployee;
+    static Connection con;
+    static Statement st;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
