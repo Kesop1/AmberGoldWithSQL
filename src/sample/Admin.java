@@ -12,12 +12,12 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
 import java.security.SecureRandom;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 import static sample.Controller.downLabel;
-import static sample.Main.activeAdmin;
-import static sample.Main.program;
+import static sample.Main.*;
 
 
 public class Admin extends User {
@@ -167,6 +167,7 @@ public class Admin extends User {
                                     message = "Please insert a unique name";
                                 } else {
                                     Admin admin = new Admin(userName);
+                                    saveTempUserdb("Add", admin.getId(), null, null, activeAdmin.getId(), admin.getName());
                                     tempUsers.add(new TempUser("Add", admin, null, null, activeAdmin));
                                     gridPane.getChildren().clear();
                                     message = admin.getId() + " is awaiting authorization";
@@ -182,6 +183,7 @@ public class Admin extends User {
                                             if (branch.getManager() == null) {
                                                 Manager manager = new Manager(userName);
                                                 if (onlyManagerToBranch(branch, manager)) {
+                                                    saveTempUserdb("Add", manager.getId(), branch.getName(), null, activeAdmin.getId(), manager.getName());
                                                     tempUsers.add(new TempUser("Add", manager, branch, null, activeAdmin));
                                                     message = manager.getId() + " is awaiting authorization";
                                                     gridPane.getChildren().clear();
@@ -196,6 +198,7 @@ public class Admin extends User {
                                             Role role = program.findRoleByName(roleChoice.getValue());
                                             if (role != null) {
                                                 Employee employee = new Employee(userName);
+                                                saveTempUserdb("Add", employee.getId(), branch.getName(), role.getName(), activeAdmin.getId(), employee.getName());
                                                 tempUsers.add(new TempUser("Add", employee, branch, role, activeAdmin));
                                                 gridPane.getChildren().clear();
                                                 message = employee.getId() + " is awaiting authorization";
@@ -372,6 +375,7 @@ public class Admin extends User {
                                                             if (!branchCurrent.equals(newBranch)) {
                                                                 if ((newBranch.getManager() == null) && (onlyManagerToBranch(newBranch, manager))) {
                                                                     message = newValue2 + " is awaiting authorization";
+                                                                    saveTempUserdb("Modify", manager.getId(), newBranch.getName(), null, activeAdmin.getId(), null);
                                                                     tempUsers.add(new TempUser("Modify", manager, newBranch, null, activeAdmin));
                                                                     gridPane.getChildren().clear();
                                                                 } else {
@@ -437,6 +441,7 @@ public class Admin extends User {
                                                                 }
                                                                 if ((!branchCurrent.equals(newBranch)) || (!employee.getRole().equals(newRole))) {
                                                                     message = employee.getName() + " is awaiting authorization";
+                                                                    saveTempUserdb("Modify", employee.getId(), newBranch.getName(), newRole.getName(), activeAdmin.getId(), null);
                                                                     tempUsers.add(new TempUser("Modify", employee, newBranch, newRole, activeAdmin));
                                                                 }
                                                                 gridPane.getChildren().clear();
@@ -526,7 +531,9 @@ public class Admin extends User {
                                                     && (findTempUserById(branch1.getManager().getId()) == null) && (findTempUserById(branch2.getManager().getId()) == null)) {
                                                 downLabel.setText("Transfer is awaiting authorization");
                                                 System.out.println("Transfer is awaiting authorization");
+                                                saveTempUserdb("Transfer with:" + branch2.getManager().getId(), branch1.getManager().getId(), branch2.getName(), null, activeAdmin.getId(), null);
                                                 tempUsers.add(new TempUser("Transfer with:" + branch2.getManager().getId(), branch1.getManager(), branch2, null, activeAdmin));
+                                                saveTempUserdb("Transfer with:" + branch1.getManager().getId(), branch2.getManager().getId(), branch1.getName(), null, activeAdmin.getId(), null);
                                                 tempUsers.add(new TempUser("Transfer with:" + branch1.getManager().getId(), branch2.getManager(), branch1, null, activeAdmin));
                                                 gridPane.getChildren().clear();
                                             } else downLabel.setText("Cannot perform this operation");
@@ -667,6 +674,7 @@ public class Admin extends User {
                                                 confirmButton.setOnAction(e -> {
                                                     downLabel.setText(admin.getName() + " is awaiting authorization");
                                                     System.out.println(admin.getName() + " is awaiting authorization");
+                                                    saveTempUserdb("Remove", admin.getId(), null, null, activeAdmin.getId(), null);
                                                     tempUsers.add(new TempUser("Remove", admin, null, null, activeAdmin));
                                                     gridPane.getChildren().clear();
                                                 });
@@ -688,6 +696,7 @@ public class Admin extends User {
                                             confirmButton.setOnAction(e -> {
                                                 downLabel.setText(manager.getName() + " is awaiting authorization");
                                                 System.out.println(manager.getName() + " is awaiting authorization");
+                                                saveTempUserdb("Remove", manager.getId(), program.findBranchByManager(manager).getName(), null, activeAdmin.getId(), null);
                                                 tempUsers.add(new TempUser("Remove", manager, program.findBranchByManager(manager), null, activeAdmin));
                                                 gridPane.getChildren().clear();
                                             });
@@ -709,6 +718,7 @@ public class Admin extends User {
                                             confirmButton.setOnAction(e -> {
                                                 downLabel.setText(employee.getName() + " is awaiting authorization");
                                                 System.out.println(employee.getName() + " is awaiting authorization");
+                                                saveTempUserdb("Remove", employee.getId(), program.findBranchByEmployee(employee).getName(), employee.getRole().getName(), activeAdmin.getId(), null);
                                                 tempUsers.add(new TempUser("Remove", employee, program.findBranchByEmployee(employee), employee.getRole(), activeAdmin));
                                                 gridPane.getChildren().clear();
                                             });
@@ -954,8 +964,10 @@ public class Admin extends User {
                                 } else {
                                     message = tempUser.getAction() + " " + admin.getName() + " authorized";
                                     if (tempUser.getAction().equals("Add")) {
+                                        authorizeUserdb("Add", admin, null, null);
                                         program.admins.add(admin);
                                     } else if (tempUser.getAction().equals("Remove")) {
+                                        authorizeUserdb("Remove", admin, null, null);
                                         program.admins.remove(admin);
                                     }
                                     tempUsers.remove(tempUser);
@@ -986,6 +998,7 @@ public class Admin extends User {
                                     message = tempUser.getAction() + " " + manager.getName() + " authorized";
                                     if (tempUser.getAction().equals("Remove")) {
                                         if (branch != null) {
+                                            authorizeUserdb("Remove", manager, null, null);
                                             branch.setManager(null);
                                             manager.setBranchName(null);
                                         }
@@ -1000,11 +1013,15 @@ public class Admin extends User {
                                                 manager2.setBranchName(branch.getName());
                                                 tempBranch.setManager(manager);
                                                 manager2.setBranchName(branch.getName());
-                                                tempUsers.remove(findTempUserById(manager2.getId()));
+                                                authorizeUserdb("Modify", manager, tempBranch.getName(), null);
+                                                authorizeUserdb("Modify", manager2, branch.getName(), null);
+                                                tempUsers.remove(findTempUserById(manager2.getId()));   //zeby usunac drugi transfer tez od razu
                                                 message = " Transfer successful";
                                             }
                                         } else {
                                             if ((tempBranch.getManager() == null) && (onlyManagerToBranch(tempBranch, manager))) {
+                                                if(tempUser.getAction().equals("Add")) authorizeUserdb("Add", manager, tempBranch.getName(), null);
+                                                else authorizeUserdb("Modify", manager, tempBranch.getName(), null);
                                                 tempBranch.setManager(manager);
                                                 manager.setBranchName(tempBranch.getName());
                                                 if (branch != null) branch.setManager(null);
@@ -1051,9 +1068,12 @@ public class Admin extends User {
                                 } else {
                                     message = tempUser.getAction() + " " + employee.getName() + " authorized";
                                     if (tempUser.getAction().equals("Remove")) {
+                                        authorizeUserdb("Remove", employee, null, null);
                                         tempBranch.getEmployees().remove(employee);
                                     } else {
                                         if (!tempBranch.getEmployees().contains(employee)) {
+                                            if(tempUser.getAction().equals("Add")) authorizeUserdb("Add", employee, tempBranch.getName(), tempRole.getName());
+                                            else authorizeUserdb("Modify", employee, tempBranch.getName(), tempRole.getName());
                                             tempBranch.getEmployees().add(employee);
                                             employee.setBranchName(tempBranch.getName());
                                             if (branch != null) {
@@ -1074,6 +1094,7 @@ public class Admin extends User {
                     }
 
                     undoButton.setOnAction(e -> {
+                        authorizeUserdb("Undo", tempUser.getTempUser(), null, null);
                         downLabel.setText("Authorization undone for " + newValue.getId());
                         tempUsers.remove(tempUser);
                         gridPane.getChildren().clear();
@@ -1235,6 +1256,7 @@ public class Admin extends User {
                     String roleName = roleNameField.getText();
                     if ((program.findRoleByName(roleName) == null) && (!roleName.equals(""))) {
                         Role role = new Role(roleName);
+                        saveTempRolesdb("Add", roleName, roleLimitsDouble);
                         tempRoles.add(new TempRole("Add", role, roleLimitsDouble, activeAdmin));
                         message = roleName + " is awaiting verification";
                         gridPane.getChildren().clear();
@@ -1368,6 +1390,7 @@ public class Admin extends User {
                                         equal = false;
                                 }
                                 if (!equal) {
+                                    saveTempRolesdb("Modify", roleName, roleLimitsDouble);
                                     tempRoles.add(new TempRole("Modify", role, roleLimitsDouble, activeAdmin));
                                     message = roleName + " is awaiting verification";
                                 }
@@ -1388,7 +1411,7 @@ public class Admin extends User {
         return gridPane;
     }
 
-    //    &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&   Modify role   &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+    //    &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&   List role   &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
     GridPane listRole() {
         downLabel.setText("Listing roles");
@@ -1418,12 +1441,12 @@ public class Admin extends User {
         return gridPane;
     }
 
-    //    &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&   List roles   &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+    //    &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&   Remove roles   &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
     GridPane removeRole() {
-        downLabel.setText("Modifying a  role");
+        downLabel.setText("Remove a  role");
         GridPane gridPane = new GridPane();
-        Label mainLabel = new Label("Modify a role");
+        Label mainLabel = new Label("Remove a role");
 
         Label roleChoiceLabel = new Label("Choose a role");
         ChoiceBox<String> roleChoice = new ChoiceBox<>();
@@ -1514,6 +1537,7 @@ public class Admin extends User {
                                     empty = false;
                             }
                             if (empty) {
+                                saveTempRolesdb("Remove", role.getName(), role.getLimits());
                                 tempRoles.add(new TempRole("Remove", role, role.getLimits(), activeAdmin));
                                 message = role.getName() + " awaiting verification";
                             } else message = role.getName() + " is assigned to someone and therefore cannot be removed";
@@ -1534,7 +1558,7 @@ public class Admin extends User {
         return gridPane;
     }
 
-    //    &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&   Remove role   &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+    //    &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&   Authorize role   &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
 
     GridPane authorizeRole() {
         downLabel.setText("Choose a role");
@@ -1674,12 +1698,18 @@ public class Admin extends User {
                             if (tempRole.getAdmin().equals(activeAdmin))
                                 message = "You are not allowed to authorize your own action";
                             else {
+                                String query = "";
                                 message = tempRole.getAction() + " " + role.getName() + " authorized";
-                                if (tempRole.getAction().equals("Remove"))
+                                if (tempRole.getAction().equals("Remove")) {
+                                    authorizeRoledb("Remove", tempRole.getRole().getName(), tempRole.getLimits());
                                     program.roles.remove(role);
+                                }
                                 else {
                                     if ((tempRole.getAction().equals("Add")) && (program.findRoleByName(role.getName()) == null)) {
+                                        authorizeRoledb("Add", tempRole.getRole().getName(), tempRole.getLimits());
                                         program.roles.add(role);
+                                    }else if(tempRole.getAction().equals("Modify")) {
+                                        authorizeRoledb("Modify", tempRole.getRole().getName(), tempRole.getLimits());
                                     }
                                     role.setLimits(tempRole.getLimits());
                                 }
@@ -1697,6 +1727,7 @@ public class Admin extends User {
                     });
 
                     undoButton.setOnAction(e -> {
+                        authorizeRoledb("Undo", tempRole.getRole().getName(), tempRole.getLimits());
                         tempRoles.remove(tempRole);
                         gridPane.getChildren().clear();
                         downLabel.setText("Role maintenance undone");
@@ -2336,6 +2367,130 @@ public class Admin extends User {
         }
     }
 
+    private boolean saveTempUserdb(String action, String userId, String branchName, String roleName, String adminId, String name){
+        try{
+            String query;
+            if(userId.charAt(0)=='A')
+                query = "insert into admin_temp (action, user, admin, new_name) values('" + action +
+                        "', '" + userId + "', '" + adminId + "', '" + name + "');";
+            else if(userId.charAt(0)=='M')
+                query = "insert into admin_temp (action, user, branch, admin, new_name) values('" + action +
+                        "', '" + userId + "', '" + branchName + "', '" + adminId + "', '" + name + "');";
+            else query = "insert into admin_temp (action, user, branch, role, admin, new_name) values('" + action +
+                        "', '" + userId + "', '" + branchName + "', '" + roleName + "', '" + adminId + "', '" + name + "');";
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.execute();
+            System.out.println("User saved");
+            return true;
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
+    private boolean authorizeUserdb(String action, User user, String branchName, String roleName){
+        try{
+            String query = "";
+            switch (action) {
+                case "Add":
+                    String addPass = "insert into password values ('" + user.getId() + "', 'new', '0', '1');";
+                    PreparedStatement preparedStatement3 = con.prepareStatement(addPass);
+                    preparedStatement3.execute();
+                    if (user.getClass().equals(Admin.class))
+                        query = "insert into users (id, name, type) values('" + user.getId() +
+                                "', '" + user.getName() + "', '" + user.getUserType() + "');";
+                    else if (user.getClass().equals(Manager.class))
+                        query = "insert into users (id, name, type, branch) values('" + user.getId() +
+                                "', '" + user.getName() + "', '" + user.getUserType() + "', '" + branchName + "');";
+                    else
+                        query = "insert into users (id, name, type, branch, role) values('" + user.getId() +
+                                "', '" + user.getName() + "', '" + user.getUserType() + "', '" + branchName + "', '" + roleName + "');";
+                    break;
+                case "Modify":
+                    if (user.getClass().equals(Manager.class))
+                        query = "update users set branch='" + branchName + "' where id='" + user.getId() + "';";
+                    else
+                        query = "update users set branch='" + branchName + "', role='" + roleName + "' where id='" + user.getId() + "';";
+                    break;
+                case "Remove":
+                    String removePass = "delete from password where login='" + user.getId() + "';";
+                    PreparedStatement preparedStatement2 = con.prepareStatement(removePass);
+                    preparedStatement2.execute();
+                    query = "delete from users where id='" + user.getId() + "';";
+                    break;
+                default:
+                    System.out.println(user.getId() + " successfully undone");
+                    break;
+            }
+            String removeTemp = "delete from admin_temp where user='" + user.getId() + "';";
+            PreparedStatement preparedStatement1 = con.prepareStatement(removeTemp);
+            preparedStatement1.execute();
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.execute();
+            System.out.println(user.getId() + " " + action + " successfully authorized");
+            return true;
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
+    private boolean saveTempRolesdb(String action, String roleName, ArrayList<Double> limits){
+        try{
+            String limitsString = "";
+            for (Double limit: limits) {
+                limitsString += "', '" + limit;
+            }
+            String query = "insert into admin_temp (action, admin, role, deposit, withdrawal, transfer, payment, online)" +
+                            " values('" + action + "', '" + activeAdmin.getId() + "', '" + roleName + limitsString + "');";
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.execute();
+            System.out.println(roleName + " " + action + " successfully authorized");
+            return true;
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
+    private boolean authorizeRoledb(String action, String roleName, ArrayList<Double> limits){
+        try{
+            String query = "";
+            String limitsString = "";
+            for (Double limit: limits) {
+                limitsString += "', '" + limit;
+            }
+            switch (action) {
+                case "Add":
+                    query = "insert into roles values('" + roleName + limitsString + "');";
+                    break;
+                case "Modify":
+                    query = "update roles set deposit='" + limits.get(0) + "', withdrawal='" + limits.get(1) + "', transfer='"
+                            + limits.get(2) + "', payment='" + limits.get(3) + "', online='" + limits.get(4) +
+                            "' where name='" + roleName + "';";
+                    break;
+                case "Remove":
+                    query = "delete from roles where name='" + roleName + "';";
+                    break;
+                default:
+                    System.out.println(roleName + " successfully undone");
+                    break;
+            }
+            String removeTemp = "delete from admin_temp where role='" + roleName + "';";
+            PreparedStatement preparedStatement1 = con.prepareStatement(removeTemp);
+            preparedStatement1.execute();
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.execute();
+            System.out.println(roleName + " " + action + " successfully authorized");
+            return true;
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
 
 }
 

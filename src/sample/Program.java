@@ -763,6 +763,8 @@ class Program {
         return true;
     }
 
+
+
 //    ****************************** LOAD ****************************
 
     private boolean loadUsers() {
@@ -1620,6 +1622,18 @@ class Program {
                                     activeAdmin.loadTempRoles("Remove", role, limitsArray, admin);
                                 }
                                 break;
+                            default:
+//                                transfer managers
+                                if (!userId.equals("")) {
+                                    Character type = userId.charAt(0);
+                                    if (type.equals('M')) {
+                                        Manager manager = (Manager) user;
+                                        if ((manager != null) && (branch != null)) {
+                                            activeAdmin.loadTempUsers(action, manager, branch, null, admin);
+                                        }
+                                    }
+                                }
+                                break;
                         }
                     } else {
                         System.out.println("Incorrect admin");
@@ -1766,6 +1780,18 @@ class Program {
 //                                Modify role
                             } else if ((userId.equals("")) && (role != null)) {
                                 activeAdmin.loadTempRoles("Remove", role, limits, admin);
+                            }
+                            break;
+                        default:
+//                                transfer managers
+                            if (!userId.equals("")) {
+                                Character type = userId.charAt(0);
+                                if (type.equals('M')) {
+                                    Manager manager = (Manager) user;
+                                    if ((manager != null) && (branch != null)) {
+                                        activeAdmin.loadTempUsers(action, manager, branch, null, admin);
+                                    }
+                                }
                             }
                             break;
 
