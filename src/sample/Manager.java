@@ -101,8 +101,10 @@ class Manager extends User {
                     if (clientSender != null) {
                         Branch clientSenderBranch = program.findBranchByClientSs(clientSender.getSocialSecurityNumber());
                         if (clientSenderBranch == program.findBranchByManager(activeManager)) {
+//                            jesli klient oddaje pieniadze ale nie ma wystarczajacych srodkow
                             if((!transaction.getType().equals("deposit")) && (transaction.getAmount()>clientSender.getBalance()))
                                 enoughFunds = false;
+//                            jesli klient wyplaca gotowke ale w branchu nie ma tyle
                             else if(transaction.getType().equals("withdrawal") && (transaction.getAmount()>clientSenderBranch.getCashInBranch()))
                                 enoughFunds = false;
                             if(enoughFunds) {
@@ -113,7 +115,7 @@ class Manager extends User {
                             }else {
                                 System.out.println("Not enough funds");
                                 downLabel.setText("Not enough funds");
-                                tempTransactions.remove(transaction);
+//                                tempTransactions.remove(transaction);
                             }
                         }
                     }

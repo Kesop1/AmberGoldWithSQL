@@ -13,6 +13,7 @@ import javafx.scene.text.Font;
 
 import java.security.SecureRandom;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -792,6 +793,14 @@ public class Admin extends User {
                                             gridPane.getChildren().addAll(confirmButton, cancelButton);
                                             confirmButton.setOnAction(e -> {
                                                 String newPass = passwordReset(admin);
+                                                String resetPass = "update password set password='" + newPass + "', attempts='0', " +
+                                                        "pass_change='1' where login='" + admin.getId() + "';";
+                                                try {
+                                                    PreparedStatement preparedStatement3 = con.prepareStatement(resetPass);
+                                                    preparedStatement3.execute();
+                                                }catch (SQLException e1){
+                                                    System.out.println(e1.getMessage());
+                                                }
                                                 downLabel.setText(admin.getName() + "'s new password is: " + newPass);
                                                 System.out.println(admin.getName() + "'s new password is: " + newPass);
                                                 admin.setChangePassword(true);
@@ -812,6 +821,14 @@ public class Admin extends User {
                                         Manager manager = program.findManagerByName(newValue1);
                                         confirmButton.setOnAction(e -> {
                                             String newPass = passwordReset(manager);
+                                            String resetPass = "update password set password='" + newPass + "', attempts='0', " +
+                                                    "pass_change='1' where login='" + manager.getId() + "';";
+                                            try {
+                                                PreparedStatement preparedStatement3 = con.prepareStatement(resetPass);
+                                                preparedStatement3.execute();
+                                            }catch (SQLException e1){
+                                                System.out.println(e1.getMessage());
+                                            }
                                             downLabel.setText(manager.getName() + "'s new password is: " + newPass);
                                             System.out.println(manager.getName() + "'s new password is: " + newPass);
                                             manager.setChangePassword(true);
@@ -832,6 +849,14 @@ public class Admin extends User {
                                         Employee employee = program.findEmployeeByName(newValue1);
                                         confirmButton.setOnAction(e -> {
                                             String newPass = passwordReset(employee);
+                                            String resetPass = "update password set password='" + newPass + "', attempts='0', " +
+                                                    "pass_change='1' where login='" + employee.getId() + "';";
+                                            try {
+                                                PreparedStatement preparedStatement3 = con.prepareStatement(resetPass);
+                                                preparedStatement3.execute();
+                                            }catch (SQLException e1){
+                                                System.out.println(e1.getMessage());
+                                            }
                                             downLabel.setText(employee.getName() + "'s new password is: " + newPass);
                                             System.out.println(employee.getName() + "'s new password is: " + newPass);
                                             employee.setChangePassword(true);
@@ -1808,6 +1833,7 @@ public class Admin extends User {
                 if (branchAddressText.getText().equals(""))
                     message = "Please insert the branch's address";
                 else {
+                    saveTempBranchesdb("Add", branchName, branchName, branchAddressText.getText());
                     tempBranches.add(new TempBranch("Add", new Branch(branchName, branchAddressText.getText()), null,
                             branchAddressText.getText(), activeAdmin));
                     message = branchName + " is now awaiting verification";
@@ -1897,6 +1923,7 @@ public class Admin extends User {
                                 String newBranchAddress = "";
                                 if (!branch.getAddress().equals(branchAddressField.getText()))
                                     newBranchAddress = branchAddressField.getText();
+                                saveTempBranchesdb("Modify", branch.getName(), newBranchName, newBranchAddress);
                                 tempBranches.add(new TempBranch("Modify", branch, newBranchName, newBranchAddress, activeAdmin));
                                 message = branch.getName() + " is now awaiting verification";
                                 gridPane.getChildren().clear();
@@ -2017,6 +2044,7 @@ public class Admin extends User {
                             if ((branch.getManager() != null) || (!branch.getEmployees().isEmpty()))
                                 message = newValue + " still has employees or a manager";
                             else {
+                                saveTempBranchesdb("Remove", branch.getName(), branch.getName(), branch.getName());
                                 tempBranches.add(new TempBranch("Remove", branch, null, null, activeAdmin));
                                 message = newValue + " is now awaiting verification";
                             }
@@ -2146,12 +2174,19 @@ public class Admin extends User {
                                 message = "You are not allowed to authorize your own action";
                             else {
                                 message = tempBranch.getAction() + " " + newBranch.getName() + " authorized";
-                                if (tempBranch.getAction().equals("Remove"))
+                                if (tempBranch.getAction().equals("Remove")) {
+                                    authorizeBranchdb("Remove", tempBranch.getBranch().getName(), tempBranch.getBranch().getName(),
+                                            tempBranch.getBranch().getAddress());
                                     program.branches.remove(existingBranch);
+                                }
                                 else {
-                                    if ((tempBranch.getAction().equals("Add")) && (program.findBranchByName(newValue) == null))
+                                    if ((tempBranch.getAction().equals("Add")) && (program.findBranchByName(newValue) == null)) {
+                                        authorizeBranchdb("Add", newValue, newValue, tempBranch.getBranch().getAddress());
                                         program.branches.add(newBranch);
+                                    }
                                     else if (tempBranch.getAction().equals("Modify")) {
+                                        authorizeBranchdb("Modify", tempBranch.getBranch().getName(), tempBranch.newBranchName,
+                                                tempBranch.getNewBranchAddress());
                                         if ((!existingBranch.getName().equals(tempBranch.getNewBranchName())) &&
                                                 (program.findBranchByName(tempBranch.getNewBranchName()) == null))
                                             existingBranch.setName(tempBranch.getNewBranchName());
@@ -2173,6 +2208,8 @@ public class Admin extends User {
                     });
 
                     undoButton.setOnAction(e -> {
+                        authorizeBranchdb("Undo", tempBranch.getBranch().getName(), tempBranch.getBranch().getName(),
+                                tempBranch.getBranch().getAddress());
                         tempBranches.remove(tempBranch);
                         gridPane.getChildren().clear();
                         downLabel.setText("Branch maintenance undone");
@@ -2380,7 +2417,7 @@ public class Admin extends User {
                         "', '" + userId + "', '" + branchName + "', '" + roleName + "', '" + adminId + "', '" + name + "');";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.execute();
-            System.out.println("User saved");
+            System.out.println(userId + " " + action + " added to temp");
             return true;
         }catch (Exception e){
             System.out.println(e.getMessage());
@@ -2446,7 +2483,7 @@ public class Admin extends User {
                             " values('" + action + "', '" + activeAdmin.getId() + "', '" + roleName + limitsString + "');";
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.execute();
-            System.out.println(roleName + " " + action + " successfully authorized");
+            System.out.println(roleName + " " + action + " added to temp");
             return true;
 
         }catch (Exception e){
@@ -2484,6 +2521,54 @@ public class Admin extends User {
             PreparedStatement preparedStatement = con.prepareStatement(query);
             preparedStatement.execute();
             System.out.println(roleName + " " + action + " successfully authorized");
+            return true;
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
+    private boolean saveTempBranchesdb(String action, String branchName, String newBranchName, String address){
+        try{
+            String query = "insert into admin_temp (action, admin, branch, new_name, new_address)" +
+                    " values('" + action + "', '" + activeAdmin.getId() + "', '" + branchName + "', '" + newBranchName
+                    + "', '" + address + "');";
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.execute();
+            System.out.println(branchName + " " + action + " added to temp");
+            return true;
+
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
+
+    private boolean authorizeBranchdb(String action, String branchName, String newBranchName, String address){
+        try{
+            String query = "";
+            switch (action) {
+                case "Add":
+                    query = "insert into branches values('" + branchName + "', '" + address + "', '0');";
+                    break;
+                case "Modify":
+                    query = "update branches set name='" + newBranchName + "', address='" + address + "' where name='" +
+                    branchName + "';";
+                    break;
+                case "Remove":
+                    query = "delete from branches where name='" + branchName + "';";
+                    break;
+                default:
+                    System.out.println(branchName + " successfully undone");
+                    break;
+            }
+            String removeTemp = "delete from admin_temp where branch='" + branchName + "';";
+            PreparedStatement preparedStatement1 = con.prepareStatement(removeTemp);
+            preparedStatement1.execute();
+            PreparedStatement preparedStatement = con.prepareStatement(query);
+            preparedStatement.execute();
+            System.out.println(branchName + " " + action + " successfully authorized");
             return true;
 
         }catch (Exception e){

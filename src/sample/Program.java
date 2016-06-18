@@ -1693,7 +1693,7 @@ class Program {
                 if(admin!=null){
                     switch (action) {
                         case "Add":
-                            System.out.print("Adding");
+                            System.out.print("Loading temp");
 //                        Add new user
                             if (!userId.equals("")) {
                                 System.out.println(" user");

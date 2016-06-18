@@ -7,13 +7,15 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 
 import static sample.Controller.downLabel;
-import static sample.Main.activeEmployee;
-import static sample.Main.program;
+import static sample.Main.*;
 
 public class Employee extends User {
     private Role role;
@@ -102,9 +104,20 @@ public class Employee extends User {
                 } catch (NumberFormatException event) {
                     System.out.println(event.getMessage());
                 }
-                if ((ssNumber > 0) && (program.findBranchByEmployee(activeEmployee).findClientBySsNumber(ssNumber) == null)) {
+                Branch branch = program.findBranchByEmployee(activeEmployee);
+                if ((ssNumber > 0) && (branch.findClientBySsNumber(ssNumber) == null)) {
                     Client client = new Client(firstNameText.getText(), lastNameText.getText(), ssNumber, addressText.getText(), dateOfBirthText.getValue());
-                    program.findBranchByEmployee(activeEmployee).getClients().add(client);
+                    branch.getClients().add(client);
+                    Date date = Date.valueOf(dateOfBirthText.getValue());
+                    String query = "insert into clients values('" + ssNumber + "', '" + firstNameText.getText() + "', '" +
+                            lastNameText.getText() + "', '" + addressText.getText() + "', '" + date.toString() + "', '0', '" +
+                            client.getAccountNumber() + "', '" + branch.getName() + "');";
+                    try{
+                        PreparedStatement preparedStatement1 = con.prepareStatement(query);
+                        preparedStatement1.execute();
+                    }catch (SQLException e1){
+                        System.out.println(e1.getMessage());
+                    }
                     message = "Client added successfully";
                     gridPane.getChildren().clear();
                 } else {
@@ -249,6 +262,13 @@ public class Employee extends User {
                             message = "Client still has some money on the account";
                         } else {
                             message = "Client removed successfully";
+                            String query = "delete from clients where ssnumber='" + client.getSocialSecurityNumber() + "';";
+                            try{
+                                PreparedStatement preparedStatement1 = con.prepareStatement(query);
+                                preparedStatement1.execute();
+                            }catch (SQLException e2){
+                                System.out.println(e2.getMessage());
+                            }
                             program.findBranchByEmployee(activeEmployee).getClients().remove(client);
                             gridPane.getChildren().clear();
                         }
@@ -287,6 +307,16 @@ public class Employee extends User {
                             changed = true;
                         }
                         if (changed) {
+                            Date date = Date.valueOf(dateOfBirthText.getValue());
+                            String query = "update clients set first='" + firstNameText.getText() + "', last='" +
+                                    lastNameText.getText() + "', address='" + addressText.getText() + "', birth='" + date.toString()
+                                    + "' where ssnumber='" + client.getSocialSecurityNumber() + "';";
+                            try{
+                                PreparedStatement preparedStatement1 = con.prepareStatement(query);
+                                preparedStatement1.execute();
+                            }catch (SQLException e2){
+                                System.out.println(e2.getMessage());
+                            }
                             message = "Client modified successfully";
                             gridPane.getChildren().clear();
                         } else
@@ -487,18 +517,51 @@ public class Employee extends User {
                                 message = client.transaction(transaction);
                                 Branch senderBranch = program.findBranchByClientSs(client.getSocialSecurityNumber());
                                 senderBranch.getTransactions().add(transaction);
+                                Date date = Date.valueOf(transaction.getDate());
+                                ArrayList<String> query = new ArrayList<>();
+                                query.add("insert into transactions (type, sender, receiver, amount, trans_date, branch, user)" +
+                                        " values('" + transaction.getType() + "', '" + transaction.getAccountNumberSender() + "', '" +
+                                        transaction.getAccountNumberReceiver() + "', '" + transaction.getAmount() + "', '" + date +
+                                        "', '" + senderBranch.getName() + "', '" + transaction.getEmployeeId() + "');");
+                                query.add("update clients set balance='" + client.getBalance() + "' where ssnumber='" +
+                                client.getSocialSecurityNumber() + "';");
                                 if (type.equals("Transfer")) {
                                     Client receiver = program.findClientByAccount(receiverText.getText());
                                     if (receiver != null) {
                                         System.out.println(receiver.transaction(transaction));
                                         message += ". Also added funds for " + receiver.getLastName();
                                         Branch receiverBranch = program.findBranchByClientSs(receiver.getSocialSecurityNumber());
-                                        if (senderBranch != receiverBranch)
+                                        if (senderBranch != receiverBranch) {
                                             receiverBranch.getTransactions().add(transaction);
+                                            query.add("insert into transactions (type, sender, receiver, amount, trans_date, branch, user)" +
+                                                    " values('" + transaction.getType() + "', '" + transaction.getAccountNumberSender() + "', '" +
+                                                    transaction.getAccountNumberReceiver() + "', '" + transaction.getAmount() + "', '" + date +
+                                                    "', '" + receiverBranch.getName() + "', '" + transaction.getEmployeeId() + "');");
+                                            query.add("update clients set balance='" + receiver.getBalance() + "' where ssnumber='" +
+                                                    receiver.getSocialSecurityNumber() + "';");
+
+                                        }
                                     }
-                                } else if ((type.equals("Deposit")) && (cashBox.isSelected()))
+                                } else if ((type.equals("Deposit")) && (cashBox.isSelected())) {
                                     program.findBranchByEmployee(activeEmployee).setCashInBranch
                                             (program.findBranchByEmployee(activeEmployee).getCashInBranch() + amount);
+                                    query.add("update branches set cash='" + senderBranch.getCashInBranch() + "' where name='" +
+                                            senderBranch.getName() + "';");
+                                }
+                                else if (type.equals("Withdrawal")){
+                                    program.findBranchByEmployee(activeEmployee).setCashInBranch
+                                            (program.findBranchByEmployee(activeEmployee).getCashInBranch() - amount);
+                                    query.add("update branches set cash='" + senderBranch.getCashInBranch() + "' where name='" +
+                                            senderBranch.getName() + "';");
+                                }
+                                try{
+                                    for (String stringDb : query) {
+                                        PreparedStatement preparedStatement1 = con.prepareStatement(stringDb);
+                                        preparedStatement1.execute();
+                                    }
+                                }catch(SQLException e2){
+                                    System.out.println(e2.getMessage());
+                                }
 
                             }
                             if (approval) {

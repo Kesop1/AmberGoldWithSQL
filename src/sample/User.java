@@ -40,9 +40,9 @@ public abstract class User {
     }
 
     void setId(String id) {
-        char[] idArray = id.toCharArray();
-        if ((id.length() == 5) && ((idArray[0] == 'M') || (idArray[0] == 'A') || (idArray[0] == 'E'))
-                && (idArray[1] == this.getName().charAt(0))) {
+//        char[] idArray = id.toCharArray();
+        if ((id.length() == 5) && ((id.charAt(0)=='M') || (id.charAt(0)=='A') || (id.charAt(0)=='E'))
+                && (id.toLowerCase().charAt(1)== this.getName().toLowerCase().charAt(0))) {
             this.id = id;
         } else {
             System.out.println("ID must be 5 symbols long, contain a symbol for the user type " +
