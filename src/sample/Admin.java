@@ -1723,7 +1723,7 @@ public class Admin extends User {
                             if (tempRole.getAdmin().equals(activeAdmin))
                                 message = "You are not allowed to authorize your own action";
                             else {
-                                String query = "";
+//                                String query = "";
                                 message = tempRole.getAction() + " " + role.getName() + " authorized";
                                 if (tempRole.getAction().equals("Remove")) {
                                     authorizeRoledb("Remove", tempRole.getRole().getName(), tempRole.getLimits());

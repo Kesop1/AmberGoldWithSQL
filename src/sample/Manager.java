@@ -10,6 +10,7 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 
+import java.sql.Date;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -110,6 +111,12 @@ class Manager extends User {
                             if(enoughFunds) {
                                 clientSender.transaction(transaction);
                                 clientSenderBranch.getTransactions().add(transaction);
+                                Date date = Date.valueOf(transaction.getDate());
+                                program.saveTodb("insert into transactions (type, sender, receiver, amount, trans_date, branch, user)" +
+                                        " values('" + transaction.getType() + "', '" + transaction.getAccountNumberSender() + "', '" +
+                                        transaction.getAccountNumberReceiver() + "', '" + transaction.getAmount() + "', '" + date +
+                                        "', '" + program.findBranchByManager(activeManager).getName() + "', '" + transaction.getEmployeeId() + "');");
+//                                jesli transakcja wymaga wplaty lub wyplaty pieniedzy z kasy branchu manager musi wykonac operacje add branch transaction
                                 System.out.println("Transaction approved");
                                 downLabel.setText("Transaction approved");
                             }else {
@@ -129,6 +136,7 @@ class Manager extends User {
                             }
                         }
                     }
+                    program.saveTodb("delete from manager_temp where id='" + transaction.getTransactionId() + "';");
                     tempTransactions.remove(transaction);
                 }
                 gridPane.getChildren().clear();
@@ -139,6 +147,7 @@ class Manager extends User {
             ObservableList<Transaction> list = transactionTableView.getSelectionModel().getSelectedItems();
             if (list != null) {
                 for (Transaction transaction : list) {
+                    program.saveTodb("delete from manager_temp where id='" + transaction.getTransactionId() + "';");
                     tempTransactions.remove(transaction);
                 }
             }
@@ -336,14 +345,40 @@ class Manager extends User {
                             Transaction transaction = new Transaction(branch.getName(), branch.getName(), "withdrawal",
                                     amount, date, activeManager.getId());
                             branch.getTransactions().add(transaction);
+                            Date date1 = Date.valueOf(transaction.getDate());
+                            program.saveTodb("insert into transactions (type, sender, receiver, amount, trans_date, branch, user)" +
+                                    " values('" + transaction.getType() + "', '" + transaction.getAccountNumberSender() + "', '" +
+                                    transaction.getAccountNumberReceiver() + "', '" + transaction.getAmount() + "', '" + date1 +
+                                    "', '" + branch.getName() + "', '" + transaction.getEmployeeId() + "');");
+//                            try{
+//                                PreparedStatement preparedStatement1 = con.prepareStatement(query);
+//                                preparedStatement1.execute();
+//                            }catch(SQLException e2){
+//                                System.out.println(e2.getMessage());
+//                            }
                             branch.setCashInBranch(branch.getCashInBranch() - amount);
+                            program.saveTodb("update branches set cash='" + program.findBranchByManager(activeManager).getCashInBranch() + "' where name='" +
+                                    program.findBranchByManager(activeManager).getName() + "';");
                             message = typeText.getValue() + " successful";
                         }
                     } else {
                         Transaction transaction = new Transaction(branch.getName(), branch.getName(), "deposit",
                                 amount, date, activeManager.getId());
                         branch.getTransactions().add(transaction);
+                        Date date1 = Date.valueOf(transaction.getDate());
+                        program.saveTodb("insert into transactions (type, sender, receiver, amount, trans_date, branch, user)" +
+                                " values('" + transaction.getType() + "', '" + transaction.getAccountNumberSender() + "', '" +
+                                transaction.getAccountNumberReceiver() + "', '" + transaction.getAmount() + "', '" + date1 +
+                                "', '" + branch.getName() + "', '" + transaction.getEmployeeId() + "');");
+//                        try{
+//                            PreparedStatement preparedStatement1 = con.prepareStatement(query);
+//                            preparedStatement1.execute();
+//                        }catch(SQLException e2){
+//                            System.out.println(e2.getMessage());
+//                        }
                         branch.setCashInBranch(branch.getCashInBranch() + amount);
+                        program.saveTodb("update branches set cash='" + program.findBranchByManager(activeManager).getCashInBranch() + "' where name='" +
+                                program.findBranchByManager(activeManager).getName() + "';");
                         message = typeText.getValue() + " successful";
                     }
                     gridPane.getChildren().clear();

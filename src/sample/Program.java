@@ -9,10 +9,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -1450,7 +1447,7 @@ class Program {
                 String sender = resultSet.getString("sender");
                 String receiver = resultSet.getString("receiver");
                 Double amount = resultSet.getDouble("amount");
-                Date date1 = resultSet.getDate("date");
+                Date date1 = resultSet.getDate("trans_date");
                 LocalDate date = date1.toLocalDate();
                 String branchName = resultSet.getString("branch");
                 Branch branch = findBranchByName(branchName);
@@ -1461,11 +1458,7 @@ class Program {
                     System.out.println("Wrong input");
                 } else {
                     Transaction transaction = new Transaction(sender, receiver, type, amount, date, employee.getId());
-                    System.out.println("++++++++++++++++++++++++++++++++++++++++++");
-                    System.out.println(transaction.saveString());
                     transaction.setTransactionId(transId);
-                    System.out.println("___");
-                    System.out.println(transaction.saveString());
                     if (findTransactionById(transId) == null) {
                         System.out.println(transaction.getTransactionId() + " added to " + branch.getName());
                         branch.getManager().getTempTransactions().add(transaction);
@@ -1820,5 +1813,18 @@ class Program {
         if(!loadRolesdb()) loadRoles();
         if(!loadUsersdb()) loadUsers();
         else loadPassworddb();
+    }
+
+    boolean saveTodb(String query){
+        try{
+            PreparedStatement preparedStatement1 = con.prepareStatement(query);
+            preparedStatement1.execute();
+            System.out.println("Query saved: " + query);
+            return true;
+        }catch(SQLException e2){
+            System.out.println("Failed to save query: " + query);
+            System.out.println(e2.getMessage());
+            return false;
+        }
     }
 }
