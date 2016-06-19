@@ -7,32 +7,36 @@
     <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Password" line="38" />
     <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="AdminTree View" line="53" />
     <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Add" line="101" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Modify" line="222" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="List" line="555" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Remove" line="618" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Reset" line="739" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Authorize" line="879" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Temp user" line="1137" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Transfer" line="467" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Add role" line="1307" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Modify role" line="1438" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Remove role" line="1585" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="List roles" line="1468" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Authorize role" line="1765" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Add branch" line="1948" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Authorize branch" line="2230" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Modify branch" line="1978" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Remove branch" line="2222" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Modify" line="229" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="List" line="584" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Remove" line="647" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Reset" line="783" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Authorize" line="923" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Temp user" line="1181" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Transfer" line="491" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Add role" line="1351" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Modify role" line="1482" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Remove role" line="1629" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="List roles" line="1512" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Authorize role" line="1809" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Add branch" line="1992" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Authorize branch" line="2274" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Modify branch" line="2022" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Remove branch" line="2266" />
     <bookmark url="file://$PROJECT_DIR$/src/sample/Employee.java" description="Employee add new client" line="34" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Employee.java" description="Employee List All clients" line="340" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Employee.java" description="Employee Modify, View, Remove client" line="137" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Employee.java" description="Employee add transaction" line="365" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Employee.java" description="Employee check acess" line="778" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Employee.java" description="Employee create a report" line="858" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Employee.java" line="244" mnemonic="E" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Employee.java" description="Employee List All clients" line="331" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Employee.java" description="Employee Modify, View, Remove client" line="133" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Employee.java" description="Employee add transaction" line="356" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Employee.java" description="Employee check acess" line="750" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Employee.java" description="Employee create a report" line="829" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Employee.java" line="240" mnemonic="E" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AmberGold/sample/Client.class" afterPath="$PROJECT_DIR$/out/production/AmberGold/sample/Client.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AmberGold/sample/Employee.class" afterPath="$PROJECT_DIR$/out/production/AmberGold/sample/Employee.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AmberGold/sample/Manager.class" afterPath="$PROJECT_DIR$/out/production/AmberGold/sample/Manager.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AmberGold/sample/Program.class" afterPath="$PROJECT_DIR$/out/production/AmberGold/sample/Program.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Admin.java" afterPath="$PROJECT_DIR$/src/sample/Admin.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Client.java" afterPath="$PROJECT_DIR$/src/sample/Client.java" />
@@ -103,9 +107,37 @@
         <entry file="file://$PROJECT_DIR$/src/sample/Admin.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="431">
-              <caret line="2565" column="32" selection-start-line="2565" selection-start-column="32" selection-end-line="2565" selection-end-column="92" />
+              <caret line="2463" column="44" selection-start-line="2463" selection-start-column="44" selection-end-line="2463" selection-end-column="44" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#131468#131469#0" expanded="true" />
+                <element signature="e#131505#131506#0" expanded="true" />
+                <element signature="e#131535#131536#0" expanded="true" />
+                <element signature="e#131574#131575#0" expanded="true" />
+                <element signature="e#131608#131609#0" expanded="true" />
+                <element signature="e#131649#131650#0" expanded="true" />
+                <element signature="e#131679#131680#0" expanded="true" />
+                <element signature="e#131718#131719#0" expanded="true" />
+                <element signature="e#131746#131747#0" expanded="true" />
+                <element signature="e#131782#131783#0" expanded="true" />
+                <element signature="e#133021#133022#0" expanded="true" />
+                <element signature="e#133058#133059#0" expanded="true" />
+                <element signature="e#133084#133085#0" expanded="true" />
+                <element signature="e#133119#133120#0" expanded="true" />
+                <element signature="e#133160#133161#0" expanded="true" />
+                <element signature="e#133197#133198#0" expanded="true" />
+                <element signature="e#133225#133226#0" expanded="true" />
+                <element signature="e#133261#133262#0" expanded="true" />
+                <element signature="e#134287#134288#0" expanded="true" />
+                <element signature="e#134324#134325#0" expanded="true" />
+                <element signature="e#134354#134355#0" expanded="true" />
+                <element signature="e#134391#134392#0" expanded="true" />
+                <element signature="e#134428#134429#0" expanded="true" />
+                <element signature="e#134472#134473#0" expanded="true" />
+                <element signature="e#134512#134513#0" expanded="true" />
+                <element signature="e#134559#134560#0" expanded="true" />
+                <element signature="e#134587#134588#0" expanded="true" />
+                <element signature="e#134623#134624#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -114,8 +146,8 @@
       <file leaf-file-name="Client.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="410">
-              <caret line="89" column="58" selection-start-line="89" selection-start-column="58" selection-end-line="89" selection-end-column="58" />
+            <state relative-caret-position="754">
+              <caret line="88" column="5" selection-start-line="88" selection-start-column="5" selection-end-line="88" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -124,8 +156,8 @@
       <file leaf-file-name="Program.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/Program.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-45">
-              <caret line="1438" column="12" selection-start-line="1438" selection-start-column="12" selection-end-line="1438" selection-end-column="12" />
+            <state relative-caret-position="472">
+              <caret line="1811" column="45" selection-start-line="1811" selection-start-column="45" selection-end-line="1811" selection-end-column="45" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -136,7 +168,7 @@
       <file leaf-file-name="Controller.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
+            <state relative-caret-position="731">
               <caret line="55" column="42" selection-start-line="55" selection-start-column="42" selection-end-line="55" selection-end-column="42" />
               <folding>
                 <element signature="imports" expanded="true" />
@@ -158,8 +190,8 @@
       <file leaf-file-name="Employee.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/Employee.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="560" column="33" selection-start-line="560" selection-start-column="33" selection-end-line="560" selection-end-column="33" />
+            <state relative-caret-position="212">
+              <caret line="274" column="62" selection-start-line="274" selection-start-column="62" selection-end-line="274" selection-end-column="62" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -170,8 +202,8 @@
       <file leaf-file-name="Manager.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sample/Manager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="154">
-              <caret line="149" column="116" selection-start-line="149" selection-start-column="116" selection-end-line="149" selection-end-column="116" />
+            <state relative-caret-position="414">
+              <caret line="129" column="0" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -243,11 +275,11 @@
         <option value="$PROJECT_DIR$/src/sample/Main.java" />
         <option value="$PROJECT_DIR$/src/sample/Controller.java" />
         <option value="$PROJECT_DIR$/src/sample/User.java" />
-        <option value="$PROJECT_DIR$/src/sample/Admin.java" />
         <option value="$PROJECT_DIR$/src/sample/Program.java" />
-        <option value="$PROJECT_DIR$/src/sample/Employee.java" />
         <option value="$PROJECT_DIR$/src/sample/Client.java" />
+        <option value="$PROJECT_DIR$/src/sample/Employee.java" />
         <option value="$PROJECT_DIR$/src/sample/Manager.java" />
+        <option value="$PROJECT_DIR$/src/sample/Admin.java" />
       </list>
     </option>
   </component>
@@ -303,7 +335,7 @@
     <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator proportions="" version="1">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -316,14 +348,7 @@
       <manualOrder />
       <foldersAlwaysOnTop value="true" />
     </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane />
-      </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scratches" />
-    </panes>
+    <panes />
   </component>
   <component name="PropertiesComponent">
     <property name="GoToFile.includeJavaFiles" value="false" />
@@ -342,21 +367,21 @@
     <property name="settings.editor.selected.configurable" value="project.propVCSSupport.Confirmation" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="74" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth0" value="271" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder0" value="0" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="96" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth1" value="299" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder1" value="1" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="97" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth2" value="301" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder2" value="2" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="603" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_flatWidth3" value="975" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_flatOrder3" value="3" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="68" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth0" value="312" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder0" value="0" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="67" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth1" value="311" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder1" value="1" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="68" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth2" value="312" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder2" value="2" />
-    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="667" />
+    <property name="FileHistory.git4idea.history.GitHistoryProvider_treeWidth3" value="911" />
     <property name="FileHistory.git4idea.history.GitHistoryProvider_treeOrder3" value="3" />
   </component>
   <component name="RecentsManager">
@@ -694,7 +719,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -704,12 +729,13 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32864866" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33333334" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33297297" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28864864" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.28731343" sideWeight="0.6703755" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32864866" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -726,7 +752,6 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32864866" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -824,13 +849,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/out/production/AmberGold/sample/LoginScreen.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="329">
           <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_73/src.zip!/java/util/Scanner.java">
@@ -917,13 +942,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/LoginScreen.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
           <caret line="64" column="187" selection-start-line="64" selection-start-column="181" selection-end-line="64" selection-end-column="187" />
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_73/javafx-src.zip!/javafx/scene/text/Font.java">
@@ -1027,36 +1052,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
+        <state relative-caret-position="731">
           <caret line="55" column="42" selection-start-line="55" selection-start-column="42" selection-end-line="55" selection-end-column="42" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="410">
-          <caret line="89" column="58" selection-start-line="89" selection-start-column="58" selection-end-line="89" selection-end-column="58" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Employee.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="560" column="33" selection-start-line="560" selection-start-column="33" selection-end-line="560" selection-end-column="33" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Admin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="431">
-          <caret line="2565" column="32" selection-start-line="2565" selection-start-column="32" selection-end-line="2565" selection-end-column="92" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1065,18 +1062,74 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Program.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-45">
-          <caret line="1438" column="12" selection-start-line="1438" selection-start-column="12" selection-end-line="1438" selection-end-column="12" />
+        <state relative-caret-position="472">
+          <caret line="1811" column="45" selection-start-line="1811" selection-start-column="45" selection-end-line="1811" selection-end-column="45" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Employee.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="212">
+          <caret line="274" column="62" selection-start-line="274" selection-start-column="62" selection-end-line="274" selection-end-column="62" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="754">
+          <caret line="88" column="5" selection-start-line="88" selection-start-column="5" selection-end-line="88" selection-end-column="5" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Admin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="431">
+          <caret line="2463" column="44" selection-start-line="2463" selection-start-column="44" selection-end-line="2463" selection-end-column="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#131468#131469#0" expanded="true" />
+            <element signature="e#131505#131506#0" expanded="true" />
+            <element signature="e#131535#131536#0" expanded="true" />
+            <element signature="e#131574#131575#0" expanded="true" />
+            <element signature="e#131608#131609#0" expanded="true" />
+            <element signature="e#131649#131650#0" expanded="true" />
+            <element signature="e#131679#131680#0" expanded="true" />
+            <element signature="e#131718#131719#0" expanded="true" />
+            <element signature="e#131746#131747#0" expanded="true" />
+            <element signature="e#131782#131783#0" expanded="true" />
+            <element signature="e#133021#133022#0" expanded="true" />
+            <element signature="e#133058#133059#0" expanded="true" />
+            <element signature="e#133084#133085#0" expanded="true" />
+            <element signature="e#133119#133120#0" expanded="true" />
+            <element signature="e#133160#133161#0" expanded="true" />
+            <element signature="e#133197#133198#0" expanded="true" />
+            <element signature="e#133225#133226#0" expanded="true" />
+            <element signature="e#133261#133262#0" expanded="true" />
+            <element signature="e#134287#134288#0" expanded="true" />
+            <element signature="e#134324#134325#0" expanded="true" />
+            <element signature="e#134354#134355#0" expanded="true" />
+            <element signature="e#134391#134392#0" expanded="true" />
+            <element signature="e#134428#134429#0" expanded="true" />
+            <element signature="e#134472#134473#0" expanded="true" />
+            <element signature="e#134512#134513#0" expanded="true" />
+            <element signature="e#134559#134560#0" expanded="true" />
+            <element signature="e#134587#134588#0" expanded="true" />
+            <element signature="e#134623#134624#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Manager.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="154">
-          <caret line="149" column="116" selection-start-line="149" selection-start-column="116" selection-end-line="149" selection-end-column="116" />
+        <state relative-caret-position="414">
+          <caret line="129" column="0" selection-start-line="129" selection-start-column="0" selection-end-line="129" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

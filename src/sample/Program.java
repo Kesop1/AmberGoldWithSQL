@@ -1815,7 +1815,7 @@ class Program {
         else loadPassworddb();
     }
 
-    boolean saveTodb(String query){
+    boolean sendTodb(String query){
         try{
             PreparedStatement preparedStatement1 = con.prepareStatement(query);
             preparedStatement1.execute();

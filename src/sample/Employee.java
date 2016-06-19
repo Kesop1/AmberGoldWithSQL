@@ -85,6 +85,8 @@ public class Employee extends User {
                 ssNumberText, addressLabel, addressText, dateOfBirthLabel, dateOfBirthText, addButton, cancelButton);
 
         addButton.setOnAction(e -> {
+            System.out.println("-----------------");
+            System.out.println("Adding new client");
             String message;
             if ((firstNameText.getText().equals("")) || (!lettersOnly(firstNameText.getText())))
                 message = "First name is incorrect";
@@ -108,24 +110,18 @@ public class Employee extends User {
                     Client client = new Client(firstNameText.getText(), lastNameText.getText(), ssNumber, addressText.getText(), dateOfBirthText.getValue());
                     branch.getClients().add(client);
                     Date date = Date.valueOf(dateOfBirthText.getValue());
-                    program.saveTodb("insert into clients values('" + ssNumber + "', '" + firstNameText.getText() + "', '" +
+                    program.sendTodb("insert into clients values('" + ssNumber + "', '" + firstNameText.getText() + "', '" +
                             lastNameText.getText() + "', '" + addressText.getText() + "', '" + date.toString() + "', '0', '" +
                             client.getAccountNumber() + "', '" + branch.getName() + "');");
-//                    try{
-//                        PreparedStatement preparedStatement1 = con.prepareStatement(query);
-//                        preparedStatement1.execute();
-//                    }catch (SQLException e1){
-//                        System.out.println(e1.getMessage());
-//                    }
                     message = "Client added successfully";
+
                     gridPane.getChildren().clear();
-                } else {
-                    message = "Social Security must contain only digits and be unique";
-                }
+                } else message = "Social Security must contain only digits and be unique";
             }
 
             downLabel.setText(message);
             System.out.println(message);
+            System.out.println("-----------------");
         });
 
         cancelButton.setOnAction(e -> {
@@ -256,28 +252,28 @@ public class Employee extends User {
                     dateOfBirthText.setDisable(true);
 
                     removeButton.setOnAction(e1 -> {
+                        System.out.println("------------");
+                        System.out.println("Removing client");
                         String message;
                         if (client.getBalance() > 0) {
-                            message = "Client still has some money on the account";
+                            message = "Client still has some money on the account and cannot be removed";
                         } else {
                             message = "Client removed successfully";
-                            program.saveTodb("delete from clients where ssnumber='" + client.getSocialSecurityNumber() + "';");
-//                            try{
-//                                PreparedStatement preparedStatement1 = con.prepareStatement(query);
-//                                preparedStatement1.execute();
-//                            }catch (SQLException e2){
-//                                System.out.println(e2.getMessage());
-//                            }
+                            program.sendTodb("delete from clients where ssnumber='" + client.getSocialSecurityNumber() + "';");
                             program.findBranchByEmployee(activeEmployee).getClients().remove(client);
+
                             gridPane.getChildren().clear();
                         }
                         downLabel.setText(message);
                         System.out.println(message);
+                        System.out.println("--------------");
                     });
 
                 }
 
                 confirmButton.setOnAction(e1 -> {
+                    System.out.println("-------------------");
+                    System.out.println("Modifying a client");
                     String message;
                     if ((firstNameText.getText().equals("")) || (!lettersOnly(firstNameText.getText())))
                         message = "First name is incorrect";
@@ -307,23 +303,18 @@ public class Employee extends User {
                         }
                         if (changed) {
                             Date date = Date.valueOf(dateOfBirthText.getValue());
-                            program.saveTodb("update clients set first='" + firstNameText.getText() + "', last='" +
+                            program.sendTodb("update clients set first='" + firstNameText.getText() + "', last='" +
                                     lastNameText.getText() + "', address='" + addressText.getText() + "', birth='" + date.toString()
                                     + "' where ssnumber='" + client.getSocialSecurityNumber() + "';");
-//                            try{
-//                                PreparedStatement preparedStatement1 = con.prepareStatement(query);
-//                                preparedStatement1.execute();
-//                            }catch (SQLException e2){
-//                                System.out.println(e2.getMessage());
-//                            }
                             message = "Client modified successfully";
+
                             gridPane.getChildren().clear();
-                        } else
-                            message = "Nothing to change";
+                        } else message = "Nothing to change";
                     }
 
                     downLabel.setText(message);
                     System.out.println(message);
+                    System.out.println("---------------");
                 });
             } else {
                 System.out.println("Client not found");
@@ -472,6 +463,8 @@ public class Employee extends User {
                             }
                         });
                 confirmButton.setOnAction(e1 -> {
+                    System.out.println("-----------------");
+                    System.out.println("Adding a client transaction");
                     String message;
                     String type = transactionTypeChoice.getValue();
                     if (type.equals(""))
@@ -512,22 +505,16 @@ public class Employee extends User {
                                 message = "You are not allowed to perform " + type.toLowerCase() + " operation for that amount";
                                 approval = approveBox(program.findBranchByEmployee(activeEmployee));
                             } else {
+                                System.out.println("Adding a new " + type + " transaction for " + client.getAccountNumber());
                                 gridPane.getChildren().clear();
                                 message = client.transaction(transaction);
                                 Branch senderBranch = program.findBranchByClientSs(client.getSocialSecurityNumber());
                                 senderBranch.getTransactions().add(transaction);
                                 Date date = Date.valueOf(transaction.getDate());
-//                                ArrayList<String> query = new ArrayList<>();
-                                program.saveTodb("insert into transactions (type, sender, receiver, amount, trans_date, branch, user)" +
-                                        " values('" + transaction.getType() + "', '" + transaction.getAccountNumberSender() + "', '" +
+                                program.sendTodb("insert into transactions (id, type, sender, receiver, amount, trans_date, branch, user)" +
+                                        " values('" + transaction.getTransactionId() + "', '" + transaction.getType() + "', '" + transaction.getAccountNumberSender() + "', '" +
                                         transaction.getAccountNumberReceiver() + "', '" + transaction.getAmount() + "', '" + date +
                                         "', '" + senderBranch.getName() + "', '" + transaction.getEmployeeId() + "');");
-//                                query.add("insert into transactions (type, sender, receiver, amount, trans_date, branch, user)" +
-//                                        " values('" + transaction.getType() + "', '" + transaction.getAccountNumberSender() + "', '" +
-//                                        transaction.getAccountNumberReceiver() + "', '" + transaction.getAmount() + "', '" + date +
-//                                        "', '" + senderBranch.getName() + "', '" + transaction.getEmployeeId() + "');");
-//                                program.saveTodb("update clients set balance='" + client.getBalance() + "' where ssnumber='" +
-//                                client.getSocialSecurityNumber() + "';");
                                 if (type.equals("Transfer")) {
                                     Client receiver = program.findClientByAccount(receiverText.getText());
                                     if (receiver != null) {
@@ -536,50 +523,36 @@ public class Employee extends User {
                                         Branch receiverBranch = program.findBranchByClientSs(receiver.getSocialSecurityNumber());
                                         if (senderBranch != receiverBranch) {
                                             receiverBranch.getTransactions().add(transaction);
-                                            program.saveTodb("insert into transactions (type, sender, receiver, amount, trans_date, branch, user)" +
-                                                    " values('" + transaction.getType() + "', '" + transaction.getAccountNumberSender() + "', '" +
+                                            program.sendTodb("insert into transactions (id, type, sender, receiver, amount, trans_date, branch, user)" +
+                                                    " values('" + transaction.getTransactionId() + "', '" + transaction.getType() +
+                                                    "', '" + transaction.getAccountNumberSender() + "', '" +
                                                     transaction.getAccountNumberReceiver() + "', '" + transaction.getAmount() + "', '" + date +
                                                     "', '" + receiverBranch.getName() + "', '" + transaction.getEmployeeId() + "');");
-                                            receiver.transaction(transaction);
-//                                            program.saveTodb("update clients set balance='" + receiver.getBalance() + "' where ssnumber='" +
-//                                                    receiver.getSocialSecurityNumber() + "';");
+//                                            receiver.transaction(transaction);
                                         }
                                     }
                                 } else if ((type.equals("Deposit")) && (cashBox.isSelected())) {
 //                                    jesli przyszla gotowka do branchu
                                     program.findBranchByEmployee(activeEmployee).setCashInBranch
                                             (program.findBranchByEmployee(activeEmployee).getCashInBranch() + amount);
-                                    program.saveTodb("update branches set cash='" + senderBranch.getCashInBranch() + "' where name='" +
+                                    program.sendTodb("update branches set cash='" + senderBranch.getCashInBranch() + "' where name='" +
                                             senderBranch.getName() + "';");
                                 }
                                 else if (type.equals("Withdrawal")){
 //                                    jesli z branchu zostala zabrana gotowka
                                     program.findBranchByEmployee(activeEmployee).setCashInBranch
                                             (program.findBranchByEmployee(activeEmployee).getCashInBranch() - amount);
-                                    program.saveTodb("update branches set cash='" + senderBranch.getCashInBranch() + "' where name='" +
+                                    program.sendTodb("update branches set cash='" + senderBranch.getCashInBranch() + "' where name='" +
                                             senderBranch.getName() + "';");
                                 }
-//                                try{
-//                                    for (String stringDb : query) {
-//                                        PreparedStatement preparedStatement1 = con.prepareStatement(stringDb);
-//                                        preparedStatement1.execute();
-//                                    }
-//                                }catch(SQLException e2){
-//                                    System.out.println(e2.getMessage());
-//                                }
                             }
                             if (approval) {
                                 Date date = Date.valueOf(transaction.getDate());
-                                program.saveTodb("insert into manager_temp (type, sender, receiver, amount, trans_date, branch, employee)" +
-                                        " values('" + transaction.getType() + "', '" + transaction.getAccountNumberSender() + "', '" +
+                                program.sendTodb("insert into manager_temp (id, type, sender, receiver, amount, trans_date, branch, employee)" +
+                                        " values('" + transaction.getTransactionId() + "', '" + transaction.getType() +
+                                        "', '" + transaction.getAccountNumberSender() + "', '" +
                                         transaction.getAccountNumberReceiver() + "', '" + transaction.getAmount() + "', '" + date +
                                         "', '" + program.findBranchByEmployee(activeEmployee).getName() + "', '" + transaction.getEmployeeId() + "');");
-//                                try{
-//                                        PreparedStatement preparedStatement1 = con.prepareStatement(query);
-//                                        preparedStatement1.execute();
-//                                }catch(SQLException e2){
-//                                    System.out.println(e2.getMessage());
-//                                }
                                 program.findBranchByEmployee(activeEmployee).getManager().getTempTransactions().add(transaction);
                                 message = "Transaction sent to the manager for approval";
                                 gridPane.getChildren().clear();
@@ -591,6 +564,7 @@ public class Employee extends User {
                     }
                     downLabel.setText(message);
                     System.out.println(message);
+                    System.out.println("----------------");
                 });
             } else {
                 System.out.println("Client not found");
@@ -728,6 +702,8 @@ public class Employee extends User {
                 accountNoText.setText(client.getAccountNumber());
 
                 confirmButton.setOnAction(e1 -> {
+                    System.out.println("------------------");
+                    System.out.println("Adding a transaction from a different bank");
                     String message;
                     int amount = -1;
                     try {
@@ -743,24 +719,20 @@ public class Employee extends User {
                         Transaction transaction = new Transaction(senderIdText.getText(), client.getAccountNumber(),
                                 "deposit", amount, dateText.getValue(), activeEmployee.getId());
                         Date date = Date.valueOf(transaction.getDate());
-                        program.saveTodb("insert into transactions (type, sender, receiver, amount, trans_date, branch, user)" +
+                        program.sendTodb("insert into transactions (type, sender, receiver, amount, trans_date, branch, user)" +
                                 " values('" + transaction.getType() + "', '" + transaction.getAccountNumberSender() + "', '" +
                                 transaction.getAccountNumberReceiver() + "', '" + transaction.getAmount() + "', '" + date +
                                 "', '" + program.findBranchByEmployee(activeEmployee).getName() + "', '" + transaction.getEmployeeId() + "');");
-//                        try{
-//                            PreparedStatement preparedStatement1 = con.prepareStatement(query);
-//                            preparedStatement1.execute();
-//                        }catch(SQLException e2){
-//                            System.out.println(e2.getMessage());
-//                        }
                         client.transaction(transaction);
                         branch.getTransactions().add(transaction);
                         message = transaction.getTransactionId() + " added to " + client.getAccountNumber() + " and " +
                                 branch.getName();
+
                         gridPane.getChildren().clear();
                     }
                     downLabel.setText(message);
                     System.out.println(message);
+                    System.out.println("--------------------");
                 });
             } else {
                 System.out.println("Client not found");
@@ -845,7 +817,6 @@ public class Employee extends User {
         GridPane.setConstraints(onlineText, 1, 8);
         GridPane.setConstraints(cancelButton, 0, 9);
 
-
         gridPane.getChildren().addAll(mainLabel, loginLabel, loginText, roleLabel, roleText, limitsLabel, depositLabel, depositText,
                 withdrawalLabel, withdrawalText, transferLabel, transferText, paymentLabel, paymentText, onlineLabel, onlineText, cancelButton);
 
@@ -921,6 +892,8 @@ public class Employee extends User {
             }
         });
         confirmButton.setOnAction(e -> {
+            System.out.println("--------------------");
+            System.out.println("Creating a report");
             TableView<Transaction> reportTableView = new TableView<>();
             String message2;
             ArrayList<Client> clientArrayList = new ArrayList<>();
@@ -960,6 +933,7 @@ public class Employee extends User {
 
             downLabel.setText(message2);
             System.out.println(message2);
+            System.out.println("-------------------");
         });
 
         cancelButton.setOnAction(e -> {
@@ -968,7 +942,6 @@ public class Employee extends User {
         });
         return gridPane;
     }
-
 
     private Client findClientBySsNumber(int ssNumber) {
         if (ssNumber > -1) {

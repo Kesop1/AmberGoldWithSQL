@@ -60,6 +60,7 @@ class Manager extends User {
 //    -------------------------------  AUTHORIZE TEMP TRANSACTION   --------------------------
 
     GridPane approveTempTransactions() {
+//        autoryzacja lub odrzucanie transakcji ktorych nie mogli wykonac userzy ze wzgeldu na limity przekraczajace ich role
         downLabel.setText("Choose a transaction");
         GridPane gridPane = new GridPane();
         Label mainLabel = new Label("Authorize a transaction");
@@ -94,7 +95,10 @@ class Manager extends User {
         gridPane.getChildren().addAll(mainLabel, transactionTableView, approveButton, rejectButton, cancelButton);
 
         approveButton.setOnAction(e -> {
+            System.out.println("-------------");
+            System.out.println("Approving transaction(s)");
             ObservableList<Transaction> list = transactionTableView.getSelectionModel().getSelectedItems();
+            String message = "";
             if (list != null) {
                 for (Transaction transaction : list) {
                     Client clientSender = program.findClientByAccount(transaction.getAccountNumberSender());
@@ -112,43 +116,48 @@ class Manager extends User {
                                 clientSender.transaction(transaction);
                                 clientSenderBranch.getTransactions().add(transaction);
                                 Date date = Date.valueOf(transaction.getDate());
-                                program.saveTodb("insert into transactions (type, sender, receiver, amount, trans_date, branch, user)" +
-                                        " values('" + transaction.getType() + "', '" + transaction.getAccountNumberSender() + "', '" +
+                                program.sendTodb("insert into transactions (id, type, sender, receiver, amount, trans_date, branch, user)" +
+                                        " values('" + transaction.getTransactionId() + "', '" + transaction.getType() + "', '" + transaction.getAccountNumberSender() + "', '" +
                                         transaction.getAccountNumberReceiver() + "', '" + transaction.getAmount() + "', '" + date +
                                         "', '" + program.findBranchByManager(activeManager).getName() + "', '" + transaction.getEmployeeId() + "');");
 //                                jesli transakcja wymaga wplaty lub wyplaty pieniedzy z kasy branchu manager musi wykonac operacje add branch transaction
-                                System.out.println("Transaction approved");
-                                downLabel.setText("Transaction approved");
+                                message = "Transaction approved, please make sure to add a branch transaction if this was a cash operation";
                             }else {
-                                System.out.println("Not enough funds");
-                                downLabel.setText("Not enough funds");
-//                                tempTransactions.remove(transaction);
+                                message = "Not enough funds";
                             }
                         }
                     }
-                    if (transaction.getType().equals("Transfer")) {
+                    if (transaction.getType().toLowerCase().equals("transfer")) {
                         Client clientReceiver = program.findClientByAccount(transaction.getAccountNumberReceiver());
                         if (clientReceiver != null) {
+                            System.out.println("Client receiver found in the bank, adding the transaction");
                             Branch clientReceiverBranch = program.findBranchByClientSs(clientReceiver.getSocialSecurityNumber());
                             if (clientReceiverBranch != program.findBranchByManager(activeManager)) {
                                 clientReceiver.transaction(transaction);
                                 clientReceiverBranch.getTransactions().add(transaction);
+                            }else if(clientReceiverBranch == program.findBranchByManager(activeManager)){
+                                clientReceiver.transaction(transaction);
                             }
                         }
                     }
-                    program.saveTodb("delete from manager_temp where id='" + transaction.getTransactionId() + "';");
+                    program.sendTodb("delete from manager_temp where id='" + transaction.getTransactionId() + "';");
                     tempTransactions.remove(transaction);
                 }
                 gridPane.getChildren().clear();
-            }
+            }else message = "No transaction to approve";
+            System.out.println(message);
+            downLabel.setText(message);
+            System.out.println("----------------");
         });
 
         rejectButton.setOnAction(e -> {
             ObservableList<Transaction> list = transactionTableView.getSelectionModel().getSelectedItems();
             if (list != null) {
                 for (Transaction transaction : list) {
-                    program.saveTodb("delete from manager_temp where id='" + transaction.getTransactionId() + "';");
+                    program.sendTodb("delete from manager_temp where id='" + transaction.getTransactionId() + "';");
                     tempTransactions.remove(transaction);
+                    System.out.println("Transaction rejected " + transaction.getTransactionId());
+                    downLabel.setText("Transaction rejected " + transaction.getTransactionId());
                 }
             }
             gridPane.getChildren().clear();
@@ -273,6 +282,7 @@ class Manager extends User {
     //    -------------------------------  ADD BRANCH TRANSACTION   --------------------------
 
     GridPane addBranchTransaction() {
+//        jezeli trzeba przyjac lub oddac pieniadze z branchu, lub czasem w transakcjach klientow
         downLabel.setText("Add a branch transaction");
         GridPane gridPane = new GridPane();
         Label mainLabel = new Label("Add a branch transaction");
@@ -321,6 +331,8 @@ class Manager extends User {
                 dateLabel, dateText, confirmButton, cancelButton);
 
         confirmButton.setOnAction(e -> {
+            System.out.println("---------------------");
+            System.out.println("Adding a branch transaction");
             String message;
             if (typeText.getValue() == null) {
                 message = "Please choose the transaction type";
@@ -346,18 +358,12 @@ class Manager extends User {
                                     amount, date, activeManager.getId());
                             branch.getTransactions().add(transaction);
                             Date date1 = Date.valueOf(transaction.getDate());
-                            program.saveTodb("insert into transactions (type, sender, receiver, amount, trans_date, branch, user)" +
+                            program.sendTodb("insert into transactions (type, sender, receiver, amount, trans_date, branch, user)" +
                                     " values('" + transaction.getType() + "', '" + transaction.getAccountNumberSender() + "', '" +
                                     transaction.getAccountNumberReceiver() + "', '" + transaction.getAmount() + "', '" + date1 +
                                     "', '" + branch.getName() + "', '" + transaction.getEmployeeId() + "');");
-//                            try{
-//                                PreparedStatement preparedStatement1 = con.prepareStatement(query);
-//                                preparedStatement1.execute();
-//                            }catch(SQLException e2){
-//                                System.out.println(e2.getMessage());
-//                            }
                             branch.setCashInBranch(branch.getCashInBranch() - amount);
-                            program.saveTodb("update branches set cash='" + program.findBranchByManager(activeManager).getCashInBranch() + "' where name='" +
+                            program.sendTodb("update branches set cash='" + program.findBranchByManager(activeManager).getCashInBranch() + "' where name='" +
                                     program.findBranchByManager(activeManager).getName() + "';");
                             message = typeText.getValue() + " successful";
                         }
@@ -366,28 +372,20 @@ class Manager extends User {
                                 amount, date, activeManager.getId());
                         branch.getTransactions().add(transaction);
                         Date date1 = Date.valueOf(transaction.getDate());
-                        program.saveTodb("insert into transactions (type, sender, receiver, amount, trans_date, branch, user)" +
+                        program.sendTodb("insert into transactions (type, sender, receiver, amount, trans_date, branch, user)" +
                                 " values('" + transaction.getType() + "', '" + transaction.getAccountNumberSender() + "', '" +
                                 transaction.getAccountNumberReceiver() + "', '" + transaction.getAmount() + "', '" + date1 +
                                 "', '" + branch.getName() + "', '" + transaction.getEmployeeId() + "');");
-//                        try{
-//                            PreparedStatement preparedStatement1 = con.prepareStatement(query);
-//                            preparedStatement1.execute();
-//                        }catch(SQLException e2){
-//                            System.out.println(e2.getMessage());
-//                        }
                         branch.setCashInBranch(branch.getCashInBranch() + amount);
-                        program.saveTodb("update branches set cash='" + program.findBranchByManager(activeManager).getCashInBranch() + "' where name='" +
+                        program.sendTodb("update branches set cash='" + program.findBranchByManager(activeManager).getCashInBranch() + "' where name='" +
                                 program.findBranchByManager(activeManager).getName() + "';");
                         message = typeText.getValue() + " successful";
                     }
                     gridPane.getChildren().clear();
-                } else {
-                    message = "Invalid date or amount";
-                    System.out.println("Invalid date or amount");
-                }
+                } else message = "Invalid date or amount";
                 downLabel.setText(message);
                 System.out.println(message);
+                System.out.println("-------------------");
             }
         });
 
@@ -509,6 +507,8 @@ class Manager extends User {
         gridPane.getChildren().addAll(mainLabel, dateFromLabel, dateFromText, dateToLabel, dateToText, confirmButton, cancelButton);
 
         confirmButton.setOnAction(e -> {
+            System.out.println("-------------------");
+            System.out.println("Creating a branch report");
             String message;
             if ((dateFromText.getValue() != null) && (dateToText.getValue() != null) &&
                     dateFromText.getValue().isBefore(dateToText.getValue().plusDays(1))) {
@@ -523,14 +523,12 @@ class Manager extends User {
 
                 exportButton.setOnAction(e1 -> program.exportTransactions(activeManager, report.transactionListBranch()));
 
-                message = "Will generate a branch report between " + dateFromText.getValue() + " and " + dateToText.getValue();
+                message = "A branch report between " + dateFromText.getValue() + " and " + dateToText.getValue();
 
-            } else {
-                message = "Please choose the correct dates";
-            }
-
+            } else message = "Please choose the correct dates";
             downLabel.setText(message);
             System.out.println(message);
+            System.out.println("------------------");
         });
 
         cancelButton.setOnAction(e -> {

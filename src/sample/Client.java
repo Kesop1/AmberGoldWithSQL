@@ -82,10 +82,8 @@ public class Client {
             default:
                 return "Not a valid transaction type";
         }
-        program.saveTodb("update clients set balance='" + this.getBalance() + "' where ssnumber='" +
+        program.sendTodb("update clients set balance='" + this.getBalance() + "' where ssnumber='" +
                 this.getSocialSecurityNumber() + "';");
-//        program.saveTodb("update branches set cash='" + program.findBranchByClientSs(this.getSocialSecurityNumber()).getCashInBranch() + "' where name='" +
-//                program.findBranchByClientSs(this.getSocialSecurityNumber()) + "';");
         return type + " transaction successful for " + this.getLastName()
                 + ". currently the balance is " + balance;
     }
