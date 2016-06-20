@@ -950,7 +950,6 @@ public class Admin extends User {
         Label actionTypeLabel = new Label("Action type");
         TextField actionTypeText = new TextField();
 
-
         Button confirmButton = new Button("Confirm");
         Button cancelButton = new Button("Cancel");
         Button undoButton = new Button("Undo");
@@ -977,7 +976,6 @@ public class Admin extends User {
         newUserRoleText.setEditable(false);
         userCreatorText.setEditable(false);
         actionTypeText.setEditable(false);
-
 
         GridPane.setConstraints(mainLabel, 0, 0);
         GridPane.setConstraints(userChooseLabel, 0, 1);
@@ -1027,23 +1025,32 @@ public class Admin extends User {
                             Admin admin = (Admin) tempUser.getTempUser();
                             userTypeText.setText("Admin");
                             confirmButton.setOnAction(e -> {
+                                System.out.println("---------------");
+                                System.out.println("Authorizing admin");
                                 String message;
                                 if (tempUser.getAdmin().equals(activeAdmin)) {
                                     message = "You are not allowed to authorize your own action";
                                 } else {
                                     message = tempUser.getAction() + " " + admin.getName() + " authorized";
                                     if (tempUser.getAction().equals("Add")) {
-                                        authorizeUserdb("Add", admin, null, null);
+                                        program.sendTodb("insert into password values ('" + admin.getId() + "', 'new', '0', '1');");
+                                        program.sendTodb("insert into users (id, name, type) values('" + admin.getId() +
+                                                "', '" + admin.getName() + "', 'A');");
+//                                        authorizeUserdb("Add", admin, null, null);
                                         program.admins.add(admin);
                                     } else if (tempUser.getAction().equals("Remove")) {
-                                        authorizeUserdb("Remove", admin, null, null);
+                                        program.sendTodb("delete from password where login='" + admin.getId() + "';");
+                                        program.sendTodb("delete from users where id='" + admin.getId() + "';");
+//                                        authorizeUserdb("Remove", admin, null, null);
                                         program.admins.remove(admin);
                                     }
+                                    program.sendTodb("delete from admin_temp where user='" + admin.getId() + "';");
                                     tempUsers.remove(tempUser);
                                     gridPane.getChildren().clear();
                                 }
                                 downLabel.setText(message);
                                 System.out.println(message);
+                                System.out.println("---------------");
                             });
 //                                      AUTHORIZE MANAGER
                             break;
@@ -1060,6 +1067,8 @@ public class Admin extends User {
                             }
                             userTypeText.setText("Manager");
                             confirmButton.setOnAction(e -> {
+                                System.out.println("-------------------");
+                                System.out.println("Authorizing manager");
                                 String message;
                                 if (tempUser.getAdmin().equals(activeAdmin)) {
                                     message = "You are not allowed to authorize your own action";
@@ -1067,7 +1076,9 @@ public class Admin extends User {
                                     message = tempUser.getAction() + " " + manager.getName() + " authorized";
                                     if (tempUser.getAction().equals("Remove")) {
                                         if (branch != null) {
-                                            authorizeUserdb("Remove", manager, null, null);
+                                            program.sendTodb("delete from password where login='" + manager.getId() + "';");
+                                            program.sendTodb("delete from users where id='" + manager.getId() + "';");
+//                                            authorizeUserdb("Remove", manager, null, null);
                                             branch.setManager(null);
                                             manager.setBranchName(null);
                                         }
@@ -1082,15 +1093,26 @@ public class Admin extends User {
                                                 manager2.setBranchName(branch.getName());
                                                 tempBranch.setManager(manager);
                                                 manager2.setBranchName(branch.getName());
-                                                authorizeUserdb("Modify", manager, tempBranch.getName(), null);
-                                                authorizeUserdb("Modify", manager2, branch.getName(), null);
+                                                program.sendTodb("update users set branch='" + tempBranch.getName() + "' where id='" + manager.getId() + "';");
+                                                program.sendTodb("update users set branch='" + branch.getName() + "' where id='" + manager2.getId() + "';");
+//                                                authorizeUserdb("Modify", manager, tempBranch.getName(), null);
+//                                                authorizeUserdb("Modify", manager2, branch.getName(), null);
+                                                program.sendTodb("delete from admin_temp where user='" + manager2.getId() + "';");
                                                 tempUsers.remove(findTempUserById(manager2.getId()));   //zeby usunac drugi transfer tez od razu
                                                 message = " Transfer successful";
                                             }
                                         } else {
                                             if ((tempBranch.getManager() == null) && (onlyManagerToBranch(tempBranch, manager))) {
-                                                if(tempUser.getAction().equals("Add")) authorizeUserdb("Add", manager, tempBranch.getName(), null);
-                                                else authorizeUserdb("Modify", manager, tempBranch.getName(), null);
+                                                if(tempUser.getAction().equals("Add")) {
+                                                    program.sendTodb("insert into password values ('" + manager.getId() + "', 'new', '0', '1');");
+                                                    program.sendTodb("insert into users (id, name, type, branch) values('" + manager.getId() +
+                                                            "', '" + manager.getName() + "', 'M', '" + "', '" + tempBranch.getName() + "');");
+//                                                    authorizeUserdb("Add", manager, tempBranch.getName(), null);
+                                                }
+                                                else {
+                                                    program.sendTodb("update users set branch='" + tempBranch.getName() + "' where id='" + manager.getId() + "';");
+//                                                    authorizeUserdb("Modify", manager, tempBranch.getName(), null);
+                                                }
                                                 tempBranch.setManager(manager);
                                                 manager.setBranchName(tempBranch.getName());
                                                 if (branch != null) branch.setManager(null);
@@ -1099,11 +1121,13 @@ public class Admin extends User {
                                             }
                                         }
                                     }
+                                    program.sendTodb("delete from admin_temp where user='" + manager.getId() + "';");
                                     tempUsers.remove(tempUser);
                                     gridPane.getChildren().clear();
                                 }
                                 downLabel.setText(message);
                                 System.out.println(message);
+                                System.out.println("----------------");
                             });
 //                                              AUTHORIZE EMPLOYEE
                             break;
@@ -1129,6 +1153,8 @@ public class Admin extends User {
                             }
                             userTypeText.setText("Employee");
                             confirmButton.setOnAction(e -> {
+                                System.out.println("----------------");
+                                System.out.println("Authorizing admin");
                                 if (tempUser.getAction().equals("Modify"))
                                     System.out.println("Was: " + employee.saveString() + " in: " + userBranchText.getText());
                                 String message;
@@ -1137,12 +1163,23 @@ public class Admin extends User {
                                 } else {
                                     message = tempUser.getAction() + " " + employee.getName() + " authorized";
                                     if (tempUser.getAction().equals("Remove")) {
-                                        authorizeUserdb("Remove", employee, null, null);
+                                        program.sendTodb("delete from password where login='" + employee.getId() + "';");
+                                        program.sendTodb("delete from users where id='" + employee.getId() + "';");
+//                                        authorizeUserdb("Remove", employee, null, null);
                                         tempBranch.getEmployees().remove(employee);
                                     } else {
                                         if (!tempBranch.getEmployees().contains(employee)) {
-                                            if(tempUser.getAction().equals("Add")) authorizeUserdb("Add", employee, tempBranch.getName(), tempRole.getName());
-                                            else authorizeUserdb("Modify", employee, tempBranch.getName(), tempRole.getName());
+                                            if(tempUser.getAction().equals("Add")) {
+                                                program.sendTodb("insert into password values ('" + employee.getId() + "', 'new', '0', '1');");
+                                                program.sendTodb("insert into users (id, name, type, branch, role) values('" + employee.getId() +
+                                                        "', '" + employee.getName() + "', 'E', '" + "', '" + tempBranch.getName() + "', '" + tempRole.getName() + "');");
+//                                                authorizeUserdb("Add", employee, tempBranch.getName(), tempRole.getName());
+                                            }
+                                            else {
+                                                program.sendTodb("update users set branch='" + tempBranch.getName() + "', role='"
+                                                        + tempRole.getName() + "' where id='" + employee.getId() + "';");
+//                                                authorizeUserdb("Modify", employee, tempBranch.getName(), tempRole.getName());
+                                            }
                                             tempBranch.getEmployees().add(employee);
                                             employee.setBranchName(tempBranch.getName());
                                             if (branch != null) {
@@ -1152,18 +1189,21 @@ public class Admin extends User {
                                         employee.setRole(tempRole);
                                         System.out.println("Now: " + employee.saveString() + " in: " + tempBranch.getName());
                                     }
+                                    program.sendTodb("delete from admin_temp where user='" + employee.getId() + "';");
                                     tempUsers.remove(tempUser);
                                     gridPane.getChildren().clear();
                                 }
                                 downLabel.setText(message);
                                 System.out.println(message);
+                                System.out.println("---------------------");
                             });
                             break;
                         }
                     }
 
                     undoButton.setOnAction(e -> {
-                        authorizeUserdb("Undo", tempUser.getTempUser(), null, null);
+                        program.sendTodb("delete from admin_temp where user='" + tempUser.getTempUser().getId() + "';");
+//                        authorizeUserdb("Undo", tempUser.getTempUser(), null, null);
                         downLabel.setText("Authorization undone for " + newValue.getId());
                         tempUsers.remove(tempUser);
                         gridPane.getChildren().clear();
@@ -1188,45 +1228,64 @@ public class Admin extends User {
     }
 
     private TempUser findTempUserById(String findId) {
+        System.out.println("+++++++++++++");
+        System.out.println("Searching for " + findId + " in temp users");
         if ((findId != null) && (!tempUsers.isEmpty())) {
             for (TempUser temp : tempUsers) {
-                if (temp.getTempUser().getId().equals(findId))
+                if (temp.getTempUser().getId().equals(findId)) {
+                    System.out.println("Found");
+                    System.out.println("+++++++++++++");
                     return temp;
+                }
             }
         }
+        System.out.println("Not found");
+        System.out.println("+++++++++++++");
         return null;
     }
 
     private TempUser findTempUserByName(String findName) {
+        System.out.println("+++++++++++++");
+        System.out.println("Searching for " + findName + " in temp users");
         if ((findName != null) && (!tempUsers.isEmpty())) {
             for (TempUser temp : tempUsers) {
-                if (temp.getTempUser().getName().equals(findName))
+                if (temp.getTempUser().getName().equals(findName)){
+                    System.out.println("Found");
+                    System.out.println("+++++++++++++");
                     return temp;
+                }
             }
         }
+        System.out.println("Not found");
+        System.out.println("+++++++++++++");
         return null;
     }
 
     private boolean onlyManagerToBranch(Branch findBranch, Manager findManager) {
+        System.out.println("+++++++++++++");
+        System.out.println("Searching for any manager related to branch");
         if ((findBranch != null) && (findManager != null)) {
-            for (TempUser tempUser : tempUsers) {
-                if (tempUser.getTempBranch() != null) {
-                    if (tempUser.getTempBranch().getManager() != null) {
-                        System.out.println(tempUser.getTempBranch().getName() + " has a manager " + tempUser.getTempBranch().getManager().getName());
-                    } else {
-                        if (tempUser.getTempBranch().equals(findBranch)) {
-                            if ((tempUser.getTempUser().getUserType().equals(findManager.getUserType())) && (!tempUser.getTempUser().equals(findManager))) {
-                                System.out.println(tempUser.getTempBranch().getName() + " waiting for a manager " + tempUser.getTempUser().getName());
-                                return false;
-                            }
-                        } else
-                            System.out.println(tempUser.getTempUser().getName() + " waiting to be added to " + tempUser.getTempBranch().getName());
+            if(findBranch.getManager()==null){
+                for (TempUser tempUser : tempUsers) {
+                    if (tempUser.getTempUser().getUserType().equals(findManager.getUserType())) { // jesli tempUser jest managerem
+                        if (tempUser.getTempBranch().equals(findBranch)) { // jesli tempManager aspiruje do naszego brancza
+                            System.out.println(tempUser.getTempBranch().getName() + " waiting for a manager " + tempUser.getTempUser().getName());
+                            System.out.println("+++++++++++++");
+                            return false;
+                        }
                     }
-                } else System.out.println("No branch set to " + tempUser.getTempUser().getName());
+                }
+            }else{
+                System.out.println(findBranch.getName() + " already has a manager");
+                System.out.println("+++++++++++++");
+                return false;
             }
             System.out.println(findBranch.getName() + " is ready for a new manager");
+            System.out.println("+++++++++++++");
             return true;
         }
+        System.out.println("Wrong input");
+        System.out.println("+++++++++++++");
         return false;
     }
 
