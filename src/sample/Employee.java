@@ -86,7 +86,7 @@ public class Employee extends User {
 
         addButton.setOnAction(e -> {
             System.out.println("-----------------");
-            System.out.println("Adding new client");
+            System.out.println("Adding a new client");
             String message;
             if ((firstNameText.getText().equals("")) || (!lettersOnly(firstNameText.getText())))
                 message = "First name is incorrect";
@@ -253,7 +253,7 @@ public class Employee extends User {
 
                     removeButton.setOnAction(e1 -> {
                         System.out.println("------------");
-                        System.out.println("Removing client");
+                        System.out.println("Removing a client");
                         String message;
                         if (client.getBalance() > 0) {
                             message = "Client still has some money on the account and cannot be removed";
@@ -944,14 +944,16 @@ public class Employee extends User {
     }
 
     private Client findClientBySsNumber(int ssNumber) {
+        System.out.print("          Searching for a client by ssnumber: ");
         if (ssNumber > -1) {
             for (Client client : program.findBranchByEmployee(activeEmployee).getClients()) {
                 if (client.getSocialSecurityNumber() == ssNumber) {
-                    System.out.println(client.getLastName() + " found");
+                    System.out.println(ssNumber + " found");
                     return client;
                 }
             }
         }
+        System.out.println(ssNumber + " not found");
         return null;
     }
 

@@ -271,272 +271,228 @@ class Program {
 //    ******************************* FIND *******************************
 
     Client findClientByAccount(String account) {
-        System.out.println("++++++++++++++");
-        System.out.println("Searching for a client by account " + account);
+        System.out.print("          Searching for a client by account: ");
         if ((account!=null) && (!branches.isEmpty())) {
             for (Branch branch : branches) {
                 for (Client client : branch.getClients()) {
                     if (client.getAccountNumber().equals(account)) {
-                        System.out.println(client.getLastName() + " found in " + branch.getName());
-                        System.out.println("++++++++++++++");
+                        System.out.println(account + " found");
                         return client;
                     }
                 }
             }
         }
-        System.out.println("Client not found");
-        System.out.println("++++++++++++++");
+        System.out.println(account + " not found");
         return null;
     }
 
     Branch findBranchByClientSs(int ssNumber) {
-        System.out.println("++++++++++++++");
-        System.out.println("Searching for a branch by client ssnumber " + ssNumber);
+        System.out.print("      Searching for a branch by client ssnumber: ");
         if ((ssNumber > 0) && (!branches.isEmpty())) {
             for (Branch branch : branches) {
                 for (Client client : branch.getClients()) {
                     if (client.getSocialSecurityNumber() == ssNumber) {
-                        System.out.println(client.getLastName() + " found in " + branch.getName());
-                        System.out.println("++++++++++++++");
+                        System.out.println(branch.getName() + " found");
                         return branch;
                     }
                 }
             }
         }
-        System.out.println("Client not found");
-        System.out.println("++++++++++++++");
+        System.out.println("Branch not found");
         return null;
     }
 
     User findUserById(String findId) {
-        System.out.println("++++++++++++++");
-        System.out.println("Searching for a user by id " + findId);
+        System.out.println("  Searching for a user by ID");
         if (findId!=null) {
             Admin admin = findAdminById(findId);
             if (admin != null) {
-                System.out.println("Admin found");
-                System.out.println("++++++++++++++");
                 return admin;
             }
             Employee employee = findEmployeeById(findId);
             if (employee != null) {
-                System.out.println("Employee found");
-                System.out.println("++++++++++++++");
                 return employee;
             }
+            System.out.print("      Searching for a manager by ID: " + findId);
             Manager manager;
             if (!branches.isEmpty()) {
                 for (Branch branch : branches) {
                     manager = branch.getManager();
                     if (manager != null)
                         if (manager.getId().equals(findId)) {
-                            System.out.println("Manager found");
-                            System.out.println("++++++++++++++");
+                            System.out.println(" found in " + branch.getName());
+//                            System.out.println("*********************************");
                             return manager;
                         }
                 }
+                System.out.println(" not found");
             }
         }
-        System.out.println("User not found");
-        System.out.println("++++++++++++++");
         return null;
     }
 
     Admin findAdminById(String findId) {
-        System.out.println("++++++++++++++");
-        System.out.println("Searching for an admin by id " + findId);
+        System.out.print("      Searching for an admin by id: ");
         if ((findId!=null) && (!admins.isEmpty())) {
             for (Admin admin : admins) {
                 if (admin.getId().equals(findId)) {
-                    System.out.println(admin.getName() + " found");
-                    System.out.println("++++++++++++++");
+                    System.out.println(findId + " found");
                     return admin;
                 }
             }
         }
         System.out.println(findId + " not found");
-        System.out.println("++++++++++++++");
         return null;
     }
 
     Admin findAdminByName(String findName) {
-        System.out.println("++++++++++++++");
-        System.out.println("Searching for an admin by name " + findName);
+        System.out.print("      Searching for an admin by name: ");
         if ((findName!=null) && (!admins.isEmpty())) {
             for (Admin admin : admins) {
                 if (admin.getName().equals(findName)) {
-                    System.out.println(admin.getName() + " found");
-                    System.out.println("++++++++++++++");
+                    System.out.println(findName + " found");
                     return admin;
                 }
             }
         }
         System.out.println(findName + " not found");
-        System.out.println("++++++++++++++");
         return null;
     }
 
     Employee findEmployeeByName(String findName) {
-        System.out.println("++++++++++++++");
-        System.out.println("Searching for an employee by name " + findName);
+        System.out.println("      Searching for an employee by name: ");
         if ((findName!=null) && (!branches.isEmpty())) {
             for (Branch branch : branches) {
                 Employee employee = branch.findEmployeeByName(findName);
                 if (employee != null) {
-                    System.out.println(findName + " found in " + branch.getName());
-                    System.out.println("++++++++++++++");
+                    System.out.println("  " + findName + " found");
                     return employee;
                 }
             }
         }
-        System.out.println(findName + " not found");
-        System.out.println("++++++++++++++");
+        System.out.println("  " + findName + " not found");
         return null;
     }
 
     Employee findEmployeeById(String findId) {
-        System.out.println("++++++++++++++");
-        System.out.println("Searching for an employee by ID " + findId);
+        System.out.println("      Searching for an employee by ID: ");
         if ((findId!=null) && (!branches.isEmpty())) {
             for (Branch branch : branches) {
                 Employee employee = branch.findEmployeeById(findId);
                 if (employee != null) {
-                    System.out.println(findId + " found in " + branch.getName());
-                    System.out.println("++++++++++++++");
+                    System.out.println("      " + findId + " found");
                     return employee;
                 }
             }
         }
-        System.out.println(findId + " not found");
-        System.out.println("++++++++++++++");
+        System.out.println("      " + findId + " not found");
         return null;
     }
 
     Branch findBranchByName(String branchName) {
-        System.out.println("++++++++++++++");
-        System.out.println("Searching for a branch by name " + branchName);
+        System.out.print("  Searching for a branch by name: ");
         if ((branchName!=null) && (!branches.isEmpty())) {
             for (Branch branch : branches) {
                 if (branch.getName().equals(branchName)) {
-                    System.out.println(branchName + " branch found");
-                    System.out.println("++++++++++++++");
+                    System.out.println(branchName + " found");
                     return branch;
                 }
             }
         }
-        System.out.println(branchName + " branch was not found");
-        System.out.println("++++++++++++++");
+        System.out.println(branchName + " not found");
         return null;
     }
 
     Role findRoleByName(String roleName) {
-        System.out.println("++++++++++++++");
-        System.out.println("Searching for a role by name " + roleName);
+        System.out.print("  Searching for a role by name: ");
         if ((roleName!=null) && (!roles.isEmpty())) {
             for (Role role : roles) {
                 if (role.getName().equals(roleName)) {
                     System.out.println(roleName + " found");
-                    System.out.println("++++++++++++++");
                     return role;
                 }
             }
         }
         System.out.println(roleName + " not found");
-        System.out.println("++++++++++++++");
         return null;
     }
 
     Manager findManagerByName(String findName) {
-        System.out.println("++++++++++++++");
-        System.out.println("Searching for a manager by name " + findName);
+        System.out.print("        Searching for a manager by name: ");
         if ((findName!=null) && (!branches.isEmpty())) {
             for (Branch branch : branches) {
                 Manager manager = branch.getManager();
                 if (manager != null) {
                     if (manager.getName().equals(findName)) {
-                        System.out.println(manager.getName() + " found in " + branch.getName());
-                        System.out.println("++++++++++++++");
+                        System.out.println(findName + " found");
                         return manager;
                     }
                 }
             }
         }
         System.out.println(findName + " not found");
-        System.out.println("++++++++++++++");
         return null;
     }
 
     Manager findManagerById(String findId) {
-        System.out.println("++++++++++++++");
-        System.out.println("Searching for a manager by ID " + findId);
+        System.out.print("      Searching for a manager by ID: ");
         if ((findId!=null) && (!branches.isEmpty())) {
             for (Branch branch : branches) {
                 if (branch.getManager() != null) {
                     if (branch.getManager().getId().equals(findId)) {
-                        System.out.println(branch.getManager().getName() + " found in " + branch.getName());
-                        System.out.println("++++++++++++++");
+                        System.out.println(findId + " found");
                         return branch.getManager();
                     }
                 }
             }
         }
-        System.out.println("Cannot find a manager with an ID " + findId);
-        System.out.println("++++++++++++++");
+        System.out.println(findId + " not found");
         return null;
     }
 
     Branch findBranchByManager(Manager manager) {
-        System.out.println("++++++++++++++");
-        System.out.println("Searching for a branch by manager with ID " + manager.getId());
+        System.out.print("        Searching for a branch by manager: ");
         if ((manager != null) && (!branches.isEmpty())) {
             for (Branch branch : branches) {
                 if (branch.getManager() != null)
                     if (branch.getManager().equals(manager)) {
-                        System.out.println(manager.getName() + " found in " + branch.getName());
-                        System.out.println("++++++++++++++");
+                        System.out.println(branch.getName() + " found");
                         return branch;
                     }
             }
-            System.out.println(manager.getName() + " was not found in any branch");
-            System.out.println("++++++++++++++");
+            System.out.println(manager.getName() + " not found");
         }
         return null;
     }
 
     Branch findBranchByEmployee(Employee employee) {
-        System.out.println("++++++++++++++");
-        System.out.println("Searching for a branch by employee with ID " + employee.getId());
+        System.out.print("        Searching for a branch by employee: ");
         if ((employee != null) && (!branches.isEmpty())) {
             for (Branch branch : branches) {
                 if (!branch.getEmployees().isEmpty())
                     if (branch.getEmployees().contains(employee)) {
-                        System.out.println(employee.getName() + " found in " + branch.getName());
-                        System.out.println("++++++++++++++");
+                        System.out.println(branch.getName() + " found");
                         return branch;
                     }
             }
-            System.out.println(employee.getName() + " was not found in any branch");
-            System.out.println("++++++++++++++");
+            System.out.println(employee.getName() + " not found");
         }
         return null;
     }
 
     Transaction findTransactionById(int transId) {
-        System.out.println("++++++++++++++");
-        System.out.println("Searching for a transaction by ID " + transId);
+        System.out.print("          Searching for a transaction by ID: ");
         if (!branches.isEmpty()) {
             for (Branch branch : branches) {
                 for (Transaction transaction : branch.getTransactions()) {
                     if (transaction.getTransactionId() == transId) {
-                        System.out.println("Transaction found");
-                        System.out.println("++++++++++++++");
+                        System.out.println(transId + " found");
                         return transaction;
                     }
                 }
             }
         }
-        System.out.println("Transaction not found");
-        System.out.println("++++++++++++++");
+        System.out.println(transId + " not found");
         return null;
     }
 
@@ -1476,11 +1432,7 @@ class Program {
                             System.out.println("Wrong input");
                         } else {
                             Transaction transaction = new Transaction(sender, receiver, type, amount, date1, employee.getId());
-                            System.out.println("++++++++++++++++++++++++++++++++++++++++++");
-                            System.out.println(transaction.saveString());
                             transaction.setTransactionId(transId);
-                            System.out.println("___");
-                            System.out.println(transaction.saveString());
                             if (findTransactionById(transId) == null) {
                                 System.out.println(transaction.getTransactionId() + " added to " + branch.getName());
                                 branch.getManager().getTempTransactions().add(transaction);

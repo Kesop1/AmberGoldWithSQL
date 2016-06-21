@@ -10,7 +10,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.PreparedStatement;
 
 import static sample.Main.*;
 
@@ -165,20 +164,10 @@ public class Controller {
     }
 
     private boolean savePassword(String userId, int attempts, String password, boolean change){
-        try{
-            int pass_change = 0;
-            if(change) pass_change = 1;
-            String query = "update password set password='" + password + "', attempts='" + attempts + "', pass_change='"
-                    + pass_change + "' where login='" + userId + "';";
-            PreparedStatement preparedStatement = con.prepareStatement(query);
-            preparedStatement.execute();
-//            con.close();
-            System.out.println("Password saved");
-            return true;
-        }catch (Exception e){
-            System.out.println(e.getMessage());
-        }
-        return false;
+        int pass_change = 0;
+        if(change) pass_change = 1;
+        return (program.sendTodb("update password set password='" + password + "', attempts='" + attempts + "', pass_change='"
+                + pass_change + "' where login='" + userId + "';"));
     }
 
     private void mainMenu(Object userType) throws IOException {

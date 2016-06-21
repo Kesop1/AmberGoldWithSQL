@@ -84,35 +84,38 @@ public class Branch {
 //    ******************************** FIND **********************
 
     Employee findEmployeeByName(String findName) {
+        System.out.print("          Searching for an employee by name: ");
         for (Employee employee : employees) {
             if (employee.getName().equals(findName)) {
-                System.out.println(findName + " found");
+                System.out.println(findName + " found in " + this.getName());
                 return employee;
             }
         }
-        System.out.println(findName + " not found");
+        System.out.println(findName + " not found in " + this.getName());
         return null;
     }
 
     Employee findEmployeeById(String findId) {
+        System.out.print("          Searching for an employee by ID: ");
         for (Employee employee : employees) {
             if (employee.getId().equals(findId)) {
-                System.out.println(employee.getName() + " found");
+                System.out.println(findId + " found in " + this.getName());
                 return employee;
             }
         }
-        System.out.println(findId + " not found");
+        System.out.println(findId + " not found in " + this.getName());
         return null;
     }
 
     Client findClientBySsNumber(int findClient) {
+        System.out.print("              Searching for an client by ssnumber: ");
         for (Client client : clients) {
             if (client.getSocialSecurityNumber() == (findClient)) {
-                System.out.println(client.getLastName() + " found");
+                System.out.println(findClient + " found in " + this.getName());
                 return client;
             }
         }
-        System.out.println("Client not found");
+        System.out.println(findClient + " not found in " + this.getName());
         return null;
     }
 
