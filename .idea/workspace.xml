@@ -4,22 +4,22 @@
     <bookmark url="file://$PROJECT_DIR$/src/sample/Program.java" description="Load" line="788" />
     <bookmark url="file://$PROJECT_DIR$/src/sample/Program.java" description="Save" line="498" />
     <bookmark url="file://$PROJECT_DIR$/src/sample/Program.java" description="Find" line="270" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Password" line="38" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="AdminTree View" line="53" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Add" line="101" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Modify" line="229" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="List" line="584" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Remove" line="647" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Reset" line="784" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Authorize" line="933" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Temp user" line="1233" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Transfer" line="491" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Add role" line="1304" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Modify role" line="1550" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Remove role" line="1698" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="List roles" line="1580" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Add branch" line="1922" />
-    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Modify branch" line="1991" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Password" line="37" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="AdminTree View" line="52" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Add" line="100" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Modify" line="228" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="List" line="586" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Remove" line="649" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Reset" line="786" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Authorize" line="917" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Temp user" line="1208" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Transfer" line="493" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Add role" line="1285" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Modify role" line="1543" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Remove role" line="1697" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="List roles" line="1573" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Add branch" line="1921" />
+    <bookmark url="file://$PROJECT_DIR$/src/sample/Admin.java" description="Modify branch" line="1990" />
     <bookmark url="file://$PROJECT_DIR$/src/sample/Employee.java" description="Employee add new client" line="34" />
     <bookmark url="file://$PROJECT_DIR$/src/sample/Employee.java" description="Employee List All clients" line="331" />
     <bookmark url="file://$PROJECT_DIR$/src/sample/Employee.java" description="Employee Modify, View, Remove client" line="133" />
@@ -31,8 +31,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AmberGold/sample/Admin$TempBranch.class" afterPath="$PROJECT_DIR$/out/production/AmberGold/sample/Admin$TempBranch.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AmberGold/sample/Admin$TempRole.class" afterPath="$PROJECT_DIR$/out/production/AmberGold/sample/Admin$TempRole.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AmberGold/sample/Admin$TempUser.class" afterPath="$PROJECT_DIR$/out/production/AmberGold/sample/Admin$TempUser.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AmberGold/sample/Admin.class" afterPath="$PROJECT_DIR$/out/production/AmberGold/sample/Admin.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AmberGold/sample/Program.class" afterPath="$PROJECT_DIR$/out/production/AmberGold/sample/Program.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/AmberGold/sample/User.class" afterPath="$PROJECT_DIR$/out/production/AmberGold/sample/User.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Admin.java" afterPath="$PROJECT_DIR$/src/sample/Admin.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Controller.java" afterPath="$PROJECT_DIR$/src/sample/Controller.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/Program.java" afterPath="$PROJECT_DIR$/src/sample/Program.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/sample/User.java" afterPath="$PROJECT_DIR$/src/sample/User.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/../../sqltest/sqltest.iml" afterPath="$PROJECT_DIR$/../../sqltest/sqltest.iml" />
     </list>
     <ignored path="JavaFxApplication.iws" />
@@ -96,8 +105,8 @@
       <file leaf-file-name="Admin.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/sample/Admin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="1549" column="0" selection-start-line="1549" selection-start-column="0" selection-end-line="1549" selection-end-column="0" />
+            <state relative-caret-position="130">
+              <caret line="2353" column="0" selection-start-line="2353" selection-start-column="0" selection-end-line="2353" selection-end-column="0" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -108,7 +117,7 @@
       <file leaf-file-name="Branch.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/Branch.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="212">
+            <state relative-caret-position="952">
               <caret line="85" column="25" selection-start-line="85" selection-start-column="25" selection-end-line="85" selection-end-column="25" />
               <folding />
             </state>
@@ -118,8 +127,8 @@
       <file leaf-file-name="Program.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/Program.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="297">
-              <caret line="391" column="43" selection-start-line="391" selection-start-column="43" selection-end-line="391" selection-end-column="43" />
+            <state relative-caret-position="255">
+              <caret line="1855" column="47" selection-start-line="1855" selection-start-column="47" selection-end-line="1855" selection-end-column="47" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -168,9 +177,37 @@
       <file leaf-file-name="User.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/User.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="20" column="29" selection-start-line="20" selection-start-column="29" selection-end-line="20" selection-end-column="29" />
-              <folding />
+            <state relative-caret-position="408">
+              <caret line="26" column="35" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="35" />
+              <folding>
+                <element signature="imports" expanded="false" />
+                <element signature="e#985#986#0" expanded="false" />
+                <element signature="e#1012#1013#0" expanded="false" />
+                <element signature="e#1052#1053#0" expanded="false" />
+                <element signature="e#1084#1085#0" expanded="false" />
+                <element signature="e#1113#1114#0" expanded="false" />
+                <element signature="e#1138#1139#0" expanded="false" />
+                <element signature="e#1554#1555#0" expanded="false" />
+                <element signature="e#1587#1588#0" expanded="false" />
+                <element signature="e#1632#1633#0" expanded="false" />
+                <element signature="e#1676#1677#0" expanded="false" />
+                <element signature="e#1717#1718#0" expanded="false" />
+                <element signature="e#1754#1755#0" expanded="false" />
+                <element signature="e#1808#1809#0" expanded="false" />
+                <element signature="e#1860#1861#0" expanded="false" />
+                <element signature="e#1895#1896#0" expanded="false" />
+                <element signature="e#1926#1927#0" expanded="false" />
+                <element signature="e#1954#1955#0" expanded="false" />
+                <element signature="e#1985#1986#0" expanded="false" />
+                <element signature="e#2026#2027#0" expanded="false" />
+                <element signature="e#2066#2067#0" expanded="false" />
+                <element signature="e#2098#2099#0" expanded="false" />
+                <element signature="e#2129#2130#0" expanded="false" />
+                <element signature="e#2167#2168#0" expanded="false" />
+                <element signature="e#2207#2208#0" expanded="false" />
+                <element signature="e#2469#2470#0" expanded="false" />
+                <element signature="e#2569#2570#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -178,8 +215,8 @@
       <file leaf-file-name="Controller.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="5576">
-              <caret line="339" column="32" selection-start-line="339" selection-start-column="32" selection-end-line="339" selection-end-column="32" />
+            <state relative-caret-position="1051">
+              <caret line="82" column="17" selection-start-line="82" selection-start-column="17" selection-end-line="82" selection-end-column="17" />
               <folding />
             </state>
           </provider>
@@ -188,9 +225,11 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1122">
-              <caret line="73" column="33" selection-start-line="73" selection-start-column="33" selection-end-line="73" selection-end-column="33" />
-              <folding />
+            <state relative-caret-position="1258">
+              <caret line="81" column="20" selection-start-line="81" selection-start-column="20" selection-end-line="81" selection-end-column="20" />
+              <folding>
+                <element signature="imports" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -210,9 +249,7 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="1649">
               <caret line="116" column="51" selection-start-line="116" selection-start-column="51" selection-end-line="116" selection-end-column="51" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
@@ -280,10 +317,10 @@
         <option value="$PROJECT_DIR$/src/sample/Main.java" />
         <option value="$PROJECT_DIR$/src/sample/Client.java" />
         <option value="$PROJECT_DIR$/src/sample/Manager.java" />
-        <option value="$PROJECT_DIR$/src/sample/Controller.java" />
-        <option value="$PROJECT_DIR$/src/sample/User.java" />
         <option value="$PROJECT_DIR$/src/sample/Employee.java" />
         <option value="$PROJECT_DIR$/src/sample/Branch.java" />
+        <option value="$PROJECT_DIR$/src/sample/User.java" />
+        <option value="$PROJECT_DIR$/src/sample/Controller.java" />
         <option value="$PROJECT_DIR$/src/sample/Program.java" />
         <option value="$PROJECT_DIR$/src/sample/Admin.java" />
       </list>
@@ -733,7 +770,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32756758" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -743,7 +780,7 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3278328" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33297297" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4281081" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.54594594" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -858,13 +895,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/out/production/AmberGold/sample/LoginScreen.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="329">
           <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_73/src.zip!/java/util/Scanner.java">
@@ -899,7 +936,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="238">
           <caret line="40" column="26" selection-start-line="40" selection-start-column="26" selection-end-line="40" selection-end-column="26" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -951,13 +987,13 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/LoginScreen.fxml">
+      <provider editor-type-id="JavaFX-Scene-Builder">
+        <state />
+      </provider>
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="378">
           <caret line="64" column="187" selection-start-line="64" selection-start-column="181" selection-end-line="64" selection-end-column="187" />
         </state>
-      </provider>
-      <provider editor-type-id="JavaFX-Scene-Builder">
-        <state />
       </provider>
     </entry>
     <entry file="jar://C:/Program Files/Java/jdk1.8.0_73/javafx-src.zip!/javafx/scene/text/Font.java">
@@ -1031,17 +1067,9 @@
         <state relative-caret-position="283">
           <caret line="190" column="35" selection-start-line="190" selection-start-column="34" selection-end-line="190" selection-end-column="35" />
           <folding>
-            <element signature="e#4040#4041#0" expanded="true" />
-            <element signature="e#4078#4079#0" expanded="true" />
+            <element signature="e#4040#4041#0" expanded="false" />
+            <element signature="e#4078#4079#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5576">
-          <caret line="339" column="32" selection-start-line="339" selection-start-column="32" selection-end-line="339" selection-end-column="32" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1053,21 +1081,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1122">
-          <caret line="73" column="33" selection-start-line="73" selection-start-column="33" selection-end-line="73" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Manager.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1649">
           <caret line="116" column="51" selection-start-line="116" selection-start-column="51" selection-end-line="116" selection-end-column="51" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -1105,26 +1123,72 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/User.java">
+    <entry file="file://$PROJECT_DIR$/src/sample/Branch.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="20" column="29" selection-start-line="20" selection-start-column="29" selection-end-line="20" selection-end-column="29" />
+        <state relative-caret-position="952">
+          <caret line="85" column="25" selection-start-line="85" selection-start-column="25" selection-end-line="85" selection-end-column="25" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/sample/Branch.java">
+    <entry file="file://$PROJECT_DIR$/src/sample/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="212">
-          <caret line="85" column="25" selection-start-line="85" selection-start-column="25" selection-end-line="85" selection-end-column="25" />
+        <state relative-caret-position="1258">
+          <caret line="81" column="20" selection-start-line="81" selection-start-column="20" selection-end-line="81" selection-end-column="20" />
+          <folding>
+            <element signature="imports" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/User.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="26" column="35" selection-start-line="26" selection-start-column="35" selection-end-line="26" selection-end-column="35" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#985#986#0" expanded="false" />
+            <element signature="e#1012#1013#0" expanded="false" />
+            <element signature="e#1052#1053#0" expanded="false" />
+            <element signature="e#1084#1085#0" expanded="false" />
+            <element signature="e#1113#1114#0" expanded="false" />
+            <element signature="e#1138#1139#0" expanded="false" />
+            <element signature="e#1554#1555#0" expanded="false" />
+            <element signature="e#1587#1588#0" expanded="false" />
+            <element signature="e#1632#1633#0" expanded="false" />
+            <element signature="e#1676#1677#0" expanded="false" />
+            <element signature="e#1717#1718#0" expanded="false" />
+            <element signature="e#1754#1755#0" expanded="false" />
+            <element signature="e#1808#1809#0" expanded="false" />
+            <element signature="e#1860#1861#0" expanded="false" />
+            <element signature="e#1895#1896#0" expanded="false" />
+            <element signature="e#1926#1927#0" expanded="false" />
+            <element signature="e#1954#1955#0" expanded="false" />
+            <element signature="e#1985#1986#0" expanded="false" />
+            <element signature="e#2026#2027#0" expanded="false" />
+            <element signature="e#2066#2067#0" expanded="false" />
+            <element signature="e#2098#2099#0" expanded="false" />
+            <element signature="e#2129#2130#0" expanded="false" />
+            <element signature="e#2167#2168#0" expanded="false" />
+            <element signature="e#2207#2208#0" expanded="false" />
+            <element signature="e#2469#2470#0" expanded="false" />
+            <element signature="e#2569#2570#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/sample/Controller.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1051">
+          <caret line="82" column="17" selection-start-line="82" selection-start-column="17" selection-end-line="82" selection-end-column="17" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Program.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="391" column="43" selection-start-line="391" selection-start-column="43" selection-end-line="391" selection-end-column="43" />
+        <state relative-caret-position="255">
+          <caret line="1855" column="47" selection-start-line="1855" selection-start-column="47" selection-end-line="1855" selection-end-column="47" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -1133,8 +1197,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/sample/Admin.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="1549" column="0" selection-start-line="1549" selection-start-column="0" selection-end-line="1549" selection-end-column="0" />
+        <state relative-caret-position="130">
+          <caret line="2353" column="0" selection-start-line="2353" selection-start-column="0" selection-end-line="2353" selection-end-column="0" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

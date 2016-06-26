@@ -790,6 +790,7 @@ class Program {
 
     private boolean loadUsers() {
         String fileName1 = "Users.csv";
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%");
         System.out.println("Loading " + fileName1);
         File file1 = new File(fileName1);
         try {
@@ -884,6 +885,7 @@ class Program {
         try{
             String query = "select * from users";
             ResultSet resultSet = st.executeQuery(query);
+            System.out.println("%%%%%%%%%%%%%%%%%%%%%%");
             System.out.println("Loading users from the database");
             while (resultSet.next()){
                 String id = resultSet.getString("id");
@@ -931,6 +933,7 @@ class Program {
         try{
             String query = "select * from password";
             ResultSet resultSet = st.executeQuery(query);
+            System.out.println("%%%%%%%%%%%%%%%%%%%%%%");
             System.out.println("Loading user passwords from the database");
             while (resultSet.next()){
                 String userId = resultSet.getString("login");
@@ -967,6 +970,7 @@ class Program {
 
     private boolean loadBranches() {
         String fileName1 = "Branches.csv";
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%");
         System.out.println("Loading " + fileName1);
         File file1 = new File(fileName1);
         try {
@@ -1010,6 +1014,7 @@ class Program {
         try{
             String query = "select * from branches";
             ResultSet resultSet = st.executeQuery(query);
+            System.out.println("%%%%%%%%%%%%%%%%%%%%%%");
             System.out.println("Loading branches from the database");
             while (resultSet.next()){
                 String name = resultSet.getString("name");
@@ -1030,6 +1035,7 @@ class Program {
 
     private boolean loadRoles() {
         String fileName1 = "Roles.csv";
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%");
         System.out.println("Loading " + fileName1);
         File file1 = new File(fileName1);
         try {
@@ -1093,6 +1099,7 @@ class Program {
         try{
             String query = "select * from roles";
             ResultSet resultSet = st.executeQuery(query);
+            System.out.println("%%%%%%%%%%%%%%%%%%%%%%");
             System.out.println("Loading roles from the database");
             while (resultSet.next()){
                 String name = resultSet.getString("name");
@@ -1122,6 +1129,7 @@ class Program {
 
     boolean loadClients() {
         String fileName1 = "Clients.csv";
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%");
         System.out.println("Loading " + fileName1);
         File file1 = new File(fileName1);
         try {
@@ -1193,6 +1201,7 @@ class Program {
         try{
             String query = "select * from clients";
             ResultSet resultSet = st.executeQuery(query);
+            System.out.println("%%%%%%%%%%%%%%%%%%%%%%");
             System.out.println("Loading clients from the database");
             while (resultSet.next()){
                 int ssNumber = resultSet.getInt("ssnumber");
@@ -1228,6 +1237,7 @@ class Program {
 
     boolean loadTransactions() {
         String fileName1 = "Transactions.csv";
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%");
         System.out.println("Loading " + fileName1);
         File file1 = new File(fileName1);
         try {
@@ -1325,6 +1335,7 @@ class Program {
         try{
             String query = "select * from transactions";
             ResultSet resultSet = st.executeQuery(query);
+            System.out.println("%%%%%%%%%%%%%%%%%%%%%%");
             System.out.println("Loading transactions from the database");
             while (resultSet.next()){
                 int transId = resultSet.getInt("id");
@@ -1382,6 +1393,7 @@ class Program {
 
     boolean loadTempTransactions() {
         String fileName1 = "TempTransactions.csv";
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%");
         System.out.println("Loading " + fileName1);
         File file1 = new File(fileName1);
         try {
@@ -1460,6 +1472,7 @@ class Program {
         try{
             String query = "select * from manager_temp";
             ResultSet resultSet = st.executeQuery(query);
+            System.out.println("%%%%%%%%%%%%%%%%%%%%%%");
             System.out.println("Loading manager temp transactions from the database");
             while (resultSet.next()){
                 int transId = resultSet.getInt("id");
@@ -1501,6 +1514,7 @@ class Program {
 
     boolean loadTemp() {
         String fileName1 = "Temp.csv";
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%");
         System.out.println("Loading " + fileName1);
         File file1 = new File(fileName1);
         try {
@@ -1614,6 +1628,12 @@ class Program {
 //                            Remove user
                                 if (!userId.equals("")) {
                                     Character type = userId.charAt(0);
+                                    if (type.equals('A')) {
+                                        Admin admin1 = (Admin) user;
+                                        if (admin1 != null) {
+                                            activeAdmin.loadTempUsers("Remove", admin1, null, null, admin);
+                                        }
+                                    }
                                     if (type.equals('M')) {
                                         Manager manager = (Manager) user;
                                         if ((manager != null) && (branch != null)) {
@@ -1667,6 +1687,7 @@ class Program {
         try{
             String query = "select * from admin_temp";
             ResultSet resultSet = st.executeQuery(query);
+            System.out.println("%%%%%%%%%%%%%%%%%%%%%%");
             System.out.println("Loading admin_temp from the database");
             while (resultSet.next()){
                 String action = resultSet.getString("action");
@@ -1774,7 +1795,12 @@ class Program {
 //                            Remove user
                             if (!userId.equals("")) {
                                 Character type = userId.charAt(0);
-                                if (type.equals('M')) {
+                                if (type.equals('A')) {
+                                    Admin admin1 = (Admin) user;
+                                    if (admin1 != null) {
+                                        activeAdmin.loadTempUsers("Remove", admin1, null, null, admin);
+                                    }
+                                } else if (type.equals('M')) {
                                     Manager manager = (Manager) user;
                                     if ((manager != null) && (branch != null)) {
                                         activeAdmin.loadTempUsers("Remove", manager, branch, null, admin);
@@ -1829,9 +1855,18 @@ class Program {
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
-        if(!loadBranchesdb()) loadBranches();
-        if(!loadRolesdb()) loadRoles();
-        if(!loadUsersdb()) loadUsers();
+        if(!loadBranchesdb()) {
+            System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
+            loadBranches();
+        }
+        if(!loadRolesdb()) {
+            System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
+            loadRoles();
+        }
+        if(!loadUsersdb()) {
+            System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
+            loadUsers();
+        }
         else loadPassworddb();
     }
 

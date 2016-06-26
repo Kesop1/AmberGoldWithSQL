@@ -41,8 +41,7 @@ public abstract class User {
 
     void setId(String id) {
         id=id.toUpperCase();
-        if ((id.length() == 5) && ((id.charAt(0)=='M') || (id.charAt(0)=='A') || (id.charAt(0)=='E'))
-                && (id.charAt(1)== this.getName().toUpperCase().charAt(0))) {
+        if ((id.length() == 5) && ((id.charAt(0)=='M') || (id.charAt(0)=='A') || (id.charAt(0)=='E'))){
             this.id = id;
         } else {
             System.out.println("ID must be 5 symbols long, contain a symbol for the user type " +

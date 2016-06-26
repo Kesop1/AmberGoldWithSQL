@@ -45,21 +45,42 @@ public class Controller {
                 System.out.println("Admin logging in");
                 userType = (Admin) outcome;
                 activeAdmin = (Admin) outcome;
-                program.loadTempdb();
+                if(!program.loadTempdb()) {
+                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
+                    program.loadTemp();
+                }
             } else if (outcome.getClass().equals(Manager.class)) {
                 System.out.println("Manager logging in");
                 userType = (Manager) outcome;
                 activeManager = (Manager) outcome;
-                program.loadClientsdb();
-                program.loadTransactionsdb();
-                program.loadTempTransactionsdb();
+                if(!program.loadClientsdb()){
+                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
+                    program.loadClients();
+                }
+                if(!program.loadTransactionsdb()){
+                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
+                    program.loadTransactions();
+                }
+                if(!program.loadTempTransactionsdb()){
+                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
+                    program.loadTempTransactions();
+                }
             } else {
                 System.out.println("Employee logging in");
                 userType = (Employee) outcome;
                 activeEmployee = (Employee) outcome;
-                program.loadClientsdb();
-                program.loadTransactionsdb();
-                program.loadTempTransactionsdb();
+                if(!program.loadClientsdb()){
+                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
+                    program.loadClients();
+                }
+                if(!program.loadTransactionsdb()){
+                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
+                    program.loadTransactions();
+                }
+                if(!program.loadTempTransactionsdb()){
+                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
+                    program.loadTempTransactions();
+                }
             }
 //            program.saveUsers();
             mainMenu(userType);
