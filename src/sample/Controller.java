@@ -93,7 +93,6 @@ public class Controller {
         if (admin != null) {
             admin.setAttempts(admin.getAttempts() + 1);
             if (admin.getAttempts() < 4) {
-                System.out.println(admin.getAttempts());
                 if (admin.getPassword().equals(password)) {
                     System.out.println("Password correct");
                     admin.setAttempts(0);
@@ -121,7 +120,6 @@ public class Controller {
         if (employee != null) {
             employee.setAttempts(employee.getAttempts() + 1);
             if (employee.getAttempts() < 4) {
-                System.out.println(employee.getAttempts());
                 if (employee.getPassword().equals(password)) {
                     System.out.println("Password correct");
                     employee.setAttempts(0);
@@ -153,7 +151,6 @@ public class Controller {
                 if (manager.getId().equals(findId)) {
                     manager.setAttempts(manager.getAttempts() + 1);
                     if (manager.getAttempts() < 4) {
-                        System.out.println(manager.getAttempts());
                         if (manager.getPassword().equals(password)) {
                             System.out.println("Password correct");
                             manager.setAttempts(0);

@@ -27,6 +27,11 @@ class Manager extends User {
         this.tempTransactions = new ArrayList<>();
     }
 
+    Manager(String name, String id) {
+        super(name, "M", id);
+        this.tempTransactions = new ArrayList<>();
+    }
+
     ArrayList<Transaction> getTempTransactions() {
         return tempTransactions;
     }
@@ -358,8 +363,8 @@ class Manager extends User {
                                     amount, date, activeManager.getId());
                             branch.getTransactions().add(transaction);
                             Date date1 = Date.valueOf(transaction.getDate());
-                            program.sendTodb("insert into transactions (type, sender, receiver, amount, trans_date, branch, user)" +
-                                    " values('" + transaction.getType() + "', '" + transaction.getAccountNumberSender() + "', '" +
+                            program.sendTodb("insert into transactions (id, type, sender, receiver, amount, trans_date, branch, user)" +
+                                    " values('" + transaction.getTransactionId() + "', '" + transaction.getType() + "', '" + transaction.getAccountNumberSender() + "', '" +
                                     transaction.getAccountNumberReceiver() + "', '" + transaction.getAmount() + "', '" + date1 +
                                     "', '" + branch.getName() + "', '" + transaction.getEmployeeId() + "');");
                             branch.setCashInBranch(branch.getCashInBranch() - amount);

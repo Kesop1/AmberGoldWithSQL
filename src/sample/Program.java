@@ -891,19 +891,18 @@ class Program {
                 String id = resultSet.getString("id");
                 String name = resultSet.getString("name");
                 String type = resultSet.getString("type");
+                System.out.println("        Loading " + id);
                 String branchName = resultSet.getString("branch");
                 Branch branch = findBranchByName(branchName);
                 String roleName = resultSet.getString("role");
                 Role role = findRoleByName(roleName);
                 switch (type){
                     case "A":
-                        Admin admin = new Admin(name);
-                        admin.setId(id);
+                        Admin admin = new Admin(name, id);
                         admins.add(admin);
                         break;
                     case "M":
-                        Manager manager = new Manager(name);
-                        manager.setId(id);
+                        Manager manager = new Manager(name, id);
                         if(branch!=null) {
                             manager.setBranchName(branchName);
                             branch.setManager(manager);
@@ -911,8 +910,7 @@ class Program {
                         break;
                     case "E":
                         if((branch!=null) && (role!=null)) {
-                            Employee employee = new Employee(name);
-                            employee.setId(id);
+                            Employee employee = new Employee(name, id);
                             employee.setBranchName(branchName);
                             branch.getEmployees().add(employee);
                             employee.setRole(role);

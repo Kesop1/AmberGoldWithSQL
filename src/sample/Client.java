@@ -30,10 +30,12 @@ public class Client {
         this.dateOfBirth = dateOfBirth;
         this.balance = 0;
         this.transactions = new ArrayList<>();
-        String random = randomString(10);
-        while (program.findClientByAccount(random) != null)
-            random = randomString(10);
-        this.accountNumber = randomString(10);
+        String random;
+        do {
+            random=randomString(10);
+        }
+        while (program.findClientByAccount(random) != null);
+        this.accountNumber = random;
     }
 
     String transaction(Transaction transaction) {

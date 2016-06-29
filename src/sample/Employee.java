@@ -24,6 +24,11 @@ public class Employee extends User {
         this.role = null;
     }
 
+    Employee(String name, String id) {
+        super(name, "E", id);
+        this.role = null;
+    }
+
     public Role getRole() {
         return role;
     }
@@ -106,7 +111,7 @@ public class Employee extends User {
                     System.out.println(event.getMessage());
                 }
                 Branch branch = program.findBranchByEmployee(activeEmployee);
-                if ((ssNumber > 0) && (branch.findClientBySsNumber(ssNumber) == null)) {
+                if ((ssNumber > 0) && (program.findBranchByClientSs(ssNumber) == null)) {
                     Client client = new Client(firstNameText.getText(), lastNameText.getText(), ssNumber, addressText.getText(), dateOfBirthText.getValue());
                     branch.getClients().add(client);
                     Date date = Date.valueOf(dateOfBirthText.getValue());
@@ -116,7 +121,7 @@ public class Employee extends User {
                     message = "Client added successfully";
 
                     gridPane.getChildren().clear();
-                } else message = "Social Security must contain only digits and be unique";
+                } else message = "Social Security must contain only digits and must be unique";
             }
 
             downLabel.setText(message);
@@ -521,15 +526,7 @@ public class Employee extends User {
                                         System.out.println(receiver.transaction(transaction));
                                         message += ". Also added funds for " + receiver.getLastName();
                                         Branch receiverBranch = program.findBranchByClientSs(receiver.getSocialSecurityNumber());
-                                        if (senderBranch != receiverBranch) {
-                                            receiverBranch.getTransactions().add(transaction);
-                                            program.sendTodb("insert into transactions (id, type, sender, receiver, amount, trans_date, branch, user)" +
-                                                    " values('" + transaction.getTransactionId() + "', '" + transaction.getType() +
-                                                    "', '" + transaction.getAccountNumberSender() + "', '" +
-                                                    transaction.getAccountNumberReceiver() + "', '" + transaction.getAmount() + "', '" + date +
-                                                    "', '" + receiverBranch.getName() + "', '" + transaction.getEmployeeId() + "');");
-//                                            receiver.transaction(transaction);
-                                        }
+                                        if (senderBranch != receiverBranch) receiverBranch.getTransactions().add(transaction);
                                     }
                                 } else if ((type.equals("Deposit")) && (cashBox.isSelected())) {
 //                                    jesli przyszla gotowka do branchu

@@ -27,6 +27,17 @@ public abstract class User {
         this.changePassword = true;
     }
 
+    public User(String name, String userType, String id) {
+        this.name = name;
+        if(program.findUserById(id) == null)
+        this.id = id;
+        else return;
+        this.userType = userType;
+        this.password = "new";
+        this.attempts = 0;
+        this.changePassword = true;
+    }
+
     public String getName() {
         return name;
     }
