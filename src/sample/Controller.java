@@ -45,42 +45,49 @@ public class Controller {
                 System.out.println("Admin logging in");
                 userType = (Admin) outcome;
                 activeAdmin = (Admin) outcome;
-                if(!program.loadTempdb()) {
-                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
-                    program.loadTemp();
-                }
+                program.loadTemp();
+//                if(!program.loadTempdb()) {
+//                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
+//                    program.loadTemp();
+//                }
             } else if (outcome.getClass().equals(Manager.class)) {
                 System.out.println("Manager logging in");
                 userType = (Manager) outcome;
                 activeManager = (Manager) outcome;
-                if(!program.loadClientsdb()){
-                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
-                    program.loadClients();
-                }
-                if(!program.loadTransactionsdb()){
-                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
-                    program.loadTransactions();
-                }
-                if(!program.loadTempTransactionsdb()){
-                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
-                    program.loadTempTransactions();
-                }
+            program.loadClients();
+//                if(!program.loadClientsdb()){
+//                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
+//                    program.loadClients();
+//                }
+        program.loadTransactions();
+//                if(!program.loadTransactionsdb()){
+//                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
+//                    program.loadTransactions();
+//                }
+        program.loadTempTransactions();
+//                if(!program.loadTempTransactionsdb()){
+//                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
+//                    program.loadTempTransactions();
+//                }
             } else {
                 System.out.println("Employee logging in");
                 userType = (Employee) outcome;
                 activeEmployee = (Employee) outcome;
-                if(!program.loadClientsdb()){
-                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
-                    program.loadClients();
-                }
-                if(!program.loadTransactionsdb()){
-                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
-                    program.loadTransactions();
-                }
-                if(!program.loadTempTransactionsdb()){
-                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
-                    program.loadTempTransactions();
-                }
+                program.loadClients();
+//                if(!program.loadClientsdb()){
+//                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
+//                    program.loadClients();
+//                }
+                program.loadTransactions();
+//                if(!program.loadTransactionsdb()){
+//                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
+//                    program.loadTransactions();
+//                }
+                program.loadTempTransactions();
+//                if(!program.loadTempTransactionsdb()){
+//                    System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
+//                    program.loadTempTransactions();
+//                }
             }
 //            program.saveUsers();
             mainMenu(userType);
@@ -184,8 +191,13 @@ public class Controller {
     private boolean savePassword(String userId, int attempts, String password, boolean change){
         int pass_change = 0;
         if(change) pass_change = 1;
-        return (program.sendTodb("update password set password='" + password + "', attempts='" + attempts + "', pass_change='"
-                + pass_change + "' where login='" + userId + "';"));
+        try {
+            return (program.sendTodb("update password set password='" + password + "', attempts='" + attempts + "', pass_change='"
+                    + pass_change + "' where login='" + userId + "';"));
+        }catch (NullPointerException e){
+            System.out.println(e.getMessage());
+            return false;
+        }
     }
 
     private void mainMenu(Object userType) throws IOException {

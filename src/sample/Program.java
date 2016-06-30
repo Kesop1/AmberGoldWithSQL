@@ -822,8 +822,8 @@ class Program {
                     } else {
                         switch (type) {
                             case "A":
-                                Admin admin = new Admin(name);
-                                admin.setId(id);
+                                Admin admin = new Admin(name, id);
+//                                admin.setId(id);
                                 admin.setPassword(password);
                                 admin.setAttempts(attempts);
                                 admin.setChangePassword(changePassword);
@@ -835,8 +835,8 @@ class Program {
                                 if (branch == null) {
                                     System.out.println("Wrong input");
                                 } else {
-                                    Manager manager = new Manager(name);
-                                    manager.setId(id);
+                                    Manager manager = new Manager(name, id);
+//                                    manager.setId(id);
                                     manager.setPassword(password);
                                     manager.setAttempts(attempts);
                                     manager.setChangePassword(changePassword);
@@ -851,8 +851,8 @@ class Program {
                                 if ((branch == null) || (role == null)) {
                                     System.out.println("Wrong input");
                                 } else {
-                                    Employee employee = new Employee(name);
-                                    employee.setId(id);
+                                    Employee employee = new Employee(name, id);
+//                                    employee.setId(id);
                                     employee.setPassword(password);
                                     employee.setAttempts(attempts);
                                     employee.setChangePassword(changePassword);
@@ -1684,7 +1684,12 @@ class Program {
     boolean loadTempdb(){
         try{
             String query = "select * from admin_temp";
-            ResultSet resultSet = st.executeQuery(query);
+            ResultSet resultSet = null;
+            try{
+            resultSet = st.executeQuery(query);}
+            catch (NullPointerException e){
+                System.out.println(e.getMessage());
+            }
             System.out.println("%%%%%%%%%%%%%%%%%%%%%%");
             System.out.println("Loading admin_temp from the database");
             while (resultSet.next()){
@@ -1853,31 +1858,35 @@ class Program {
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
-        if(!loadBranchesdb()) {
-            System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
-            loadBranches();
-        }
-        if(!loadRolesdb()) {
-            System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
-            loadRoles();
-        }
-        if(!loadUsersdb()) {
-            System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
-            loadUsers();
-        }
-        else loadPassworddb();
+        loadBranches();
+//        if(!loadBranchesdb()) {
+//            System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
+//            loadBranches();
+//        }
+        loadRoles();
+//        if(!loadRolesdb()) {
+//            System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
+//            loadRoles();
+//        }
+        loadUsers();
+//        if(!loadUsersdb()) {
+//            System.out.println("%%%%%%%%%%%% Failed to load from the database, loading from CSV %%%%%%%%%%%%%%%");
+//            loadUsers();
+//        }
+//        else loadPassworddb();
     }
 
     boolean sendTodb(String query){
-        try{
-            PreparedStatement preparedStatement1 = con.prepareStatement(query);
-            preparedStatement1.execute();
-            System.out.println("Query saved: " + query);
-            return true;
-        }catch(SQLException e2){
-            System.out.println("Failed to save query: " + query);
-            System.out.println(e2.getMessage());
-            return false;
-        }
+//        try{
+//            PreparedStatement preparedStatement1 = con.prepareStatement(query);
+//            preparedStatement1.execute();
+//            System.out.println("Query saved: " + query);
+//            return true;
+//        }catch(SQLException e2){
+//            System.out.println("Failed to save query: " + query);
+//            System.out.println(e2.getMessage());
+//            return false;
+//        }
+        return true;
     }
 }

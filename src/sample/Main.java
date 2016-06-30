@@ -68,6 +68,16 @@ public class Main extends Application {
      */
 
 
+/*---------------------------------------------------------
+The application normally loads all the data from the SQL database, (but it was disabled for now)
+but it can also be loaded through the CSV files in the project
+example logins:
+Admin: AK366 password: new
+Manager: MA111 password: new
+Employee: EJ111 password: newnew1
+ --------------------------------------------------------*/
+
+
     static Program program = new Program();
     Controller controller = new Controller();
     static Admin activeAdmin;
